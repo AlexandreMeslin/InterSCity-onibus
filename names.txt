@@ -1,0 +1,2 @@
+RioDeJaneiro-cima.coordenadas
+RioDeJaneiro-baixo.coordenadas

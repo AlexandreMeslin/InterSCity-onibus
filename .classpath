@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Pretty Print"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JSONParser"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/ContextNet"/>
+	<classpathentry kind="lib" path="/media/meslin/643CA9553CA92352/Program Files/Java/commons-cli/commons-cli-1.4.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="https://commons.apache.org/proper/commons-cli/javadocs/api-release/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/media/meslin/643CA9553CA92352/Program Files/Java/JMapViewer/JMapViewer-2.6/JMapViewer.jar" sourcepath="/media/meslin/643CA9553CA92352/Program Files/Java/JMapViewer/JMapViewer-2.6/JMapViewer_src.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="https://josm.openstreetmap.de/doc"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/media/meslin/643CA9553CA92352/Program Files/Java/commons-lang3-3.7/commons-lang3-3.7.jar" sourcepath="/media/meslin/643CA9553CA92352/Program Files/Java/commons-lang3-3.7/commons-lang3-3.7-sources.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:file:/media/meslin/643CA9553CA92352/Program%20Files/Java/commons-lang3-3.7/commons-lang3-3.7-javadoc.jar!/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

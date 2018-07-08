@@ -1,0 +1,1312 @@
+========================================================================================
+Report      : WARNING
+Date        : Qui Mar 01 17:46:35 -03 2018
+Description : Did not install signal handlers to cleanup resources.
+              To ensure cleanup for Java applications, the path to the 'jsig' library
+              (libjsig.so) must be set in the LD_PRELOAD environment variable.
+              This library is part of your Java distribution.
+              To ensure proper cleanup set this before starting your application.
+Node        : meslin-notebook
+Process     : java <5747>
+Thread      : main thread 7fa0d4cf5700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/OS abstraction layer/os_signalHandler.c/107/0/1519937195.849215658
+========================================================================================
+Report      : INFO
+Date        : Qui Mar 01 17:46:35 -03 2018
+Description : u_domainNew:Database allocated on heap
+Node        : meslin-notebook
+Process     : java <5747>
+Thread      : spliced 7fa0b4031700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/user::u_domain::u_domainNew/u_domain.c/706/0/1519937195.858697744
+========================================================================================
+Report      : INFO
+Date        : Qui Mar 01 17:46:35 -03 2018
+Description : ---------------------------------------------------------------
+              -- The service is using the following configuration settings --
+              ---------------------------------------------------------------
+              Domain (id)          : ospl_sp_ddsi (0)
+              Storage              : 10240 Kbytes
+              Storage threshold    : 1024 Kbytes
+              Storage address      : Not available
+              Locking              : default
+              Memory mode          : Heap memory
+              Builtin topics       : true
+              Priority inheritance : false
+Node        : meslin-notebook
+Process     : java <5747>
+Thread      : spliced 7fa0b4031700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/The OpenSplice domain service/u_domain.c/827/0/1519937195.862840786
+========================================================================================
+Report      : INFO
+Date        : Qui Mar 01 17:46:35 -03 2018
+Description : Service cmsoap disabled
+Node        : meslin-notebook
+Process     : java <5747>
+Thread      : spliced 7fa0b4031700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/OpenSplice domain service/sr_componentInfo.c/439/0/1519937195.863087951
+========================================================================================
+Report      : INFO
+Date        : Qui Mar 01 17:46:35 -03 2018
+Description : ++++++++++++++++++++++++++++++++++++++++++++++++
+              ++ The service 'splicedaemon' is now operational. 
+              ++++++++++++++++++++++++++++++++++++++++++++++++
+Node        : meslin-notebook
+Process     : java <5747>
+Thread      : spliced 7fa0b4031700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_serviceChangeState/v_service.c/329/0/1519937195.863404396
+========================================================================================
+Report      : INFO
+Date        : Qui Mar 01 17:46:35 -03 2018
+Description : ++++++++++++++++++++++++++++++++++++++++++++++++
+              ++ The service 'ddsi2' is now operational. 
+              ++++++++++++++++++++++++++++++++++++++++++++++++
+Node        : meslin-notebook
+Process     : java <5747>
+Thread      : ddsi2 7fa043fff700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_serviceChangeState/v_service.c/329/0/1519937195.876948563
+========================================================================================
+Report      : INFO
+Date        : Qui Mar 01 17:46:35 -03 2018
+Description : The durability service can by identified by ID: 1690719551
+Node        : meslin-notebook
+Process     : java <5747>
+Thread      : durability 7fa0743db700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/DurabilityService/d_durability.c/476/0/1519937195.979594373
+========================================================================================
+Report      : INFO
+Date        : Qui Mar 01 17:46:43 -03 2018
+Description : ++++++++++++++++++++++++++++++++++++++++++++++++
+              ++ The service 'durability' is now operational. 
+              ++++++++++++++++++++++++++++++++++++++++++++++++
+Node        : meslin-notebook
+Process     : java <5747>
+Thread      : durability 7fa0743db700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_serviceChangeState/v_service.c/329/0/1519937203.384598975
+========================================================================================
+Report      : WARNING
+Date        : Qui Mar 01 17:48:39 -03 2018
+Description : Did not install signal handlers to cleanup resources.
+              To ensure cleanup for Java applications, the path to the 'jsig' library
+              (libjsig.so) must be set in the LD_PRELOAD environment variable.
+              This library is part of your Java distribution.
+              To ensure proper cleanup set this before starting your application.
+Node        : meslin-notebook
+Process     : java <5945>
+Thread      : main thread 7f1e7982d700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/OS abstraction layer/os_signalHandler.c/107/0/1519937319.093709383
+========================================================================================
+Report      : INFO
+Date        : Qui Mar 01 17:48:39 -03 2018
+Description : u_domainNew:Database allocated on heap
+Node        : meslin-notebook
+Process     : java <5945>
+Thread      : spliced 7f1e7401e700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/user::u_domain::u_domainNew/u_domain.c/706/0/1519937319.100261289
+========================================================================================
+Report      : INFO
+Date        : Qui Mar 01 17:48:39 -03 2018
+Description : ---------------------------------------------------------------
+              -- The service is using the following configuration settings --
+              ---------------------------------------------------------------
+              Domain (id)          : ospl_sp_ddsi (0)
+              Storage              : 10240 Kbytes
+              Storage threshold    : 1024 Kbytes
+              Storage address      : Not available
+              Locking              : default
+              Memory mode          : Heap memory
+              Builtin topics       : true
+              Priority inheritance : false
+Node        : meslin-notebook
+Process     : java <5945>
+Thread      : spliced 7f1e7401e700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/The OpenSplice domain service/u_domain.c/827/0/1519937319.106752504
+========================================================================================
+Report      : INFO
+Date        : Qui Mar 01 17:48:39 -03 2018
+Description : Service cmsoap disabled
+Node        : meslin-notebook
+Process     : java <5945>
+Thread      : spliced 7f1e7401e700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/OpenSplice domain service/sr_componentInfo.c/439/0/1519937319.107075588
+========================================================================================
+Report      : INFO
+Date        : Qui Mar 01 17:48:39 -03 2018
+Description : ++++++++++++++++++++++++++++++++++++++++++++++++
+              ++ The service 'splicedaemon' is now operational. 
+              ++++++++++++++++++++++++++++++++++++++++++++++++
+Node        : meslin-notebook
+Process     : java <5945>
+Thread      : spliced 7f1e7401e700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_serviceChangeState/v_service.c/329/0/1519937319.107825393
+========================================================================================
+Report      : INFO
+Date        : Qui Mar 01 17:48:39 -03 2018
+Description : ++++++++++++++++++++++++++++++++++++++++++++++++
+              ++ The service 'ddsi2' is now operational. 
+              ++++++++++++++++++++++++++++++++++++++++++++++++
+Node        : meslin-notebook
+Process     : java <5945>
+Thread      : ddsi2 7f1e14b31700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_serviceChangeState/v_service.c/329/0/1519937319.118888131
+========================================================================================
+Report      : INFO
+Date        : Qui Mar 01 17:48:39 -03 2018
+Description : The durability service can by identified by ID: 18999040
+Node        : meslin-notebook
+Process     : java <5945>
+Thread      : durability 7f1e241b0700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/DurabilityService/d_durability.c/476/0/1519937319.620320328
+========================================================================================
+Report      : INFO
+Date        : Qui Mar 01 17:48:47 -03 2018
+Description : ++++++++++++++++++++++++++++++++++++++++++++++++
+              ++ The service 'durability' is now operational. 
+              ++++++++++++++++++++++++++++++++++++++++++++++++
+Node        : meslin-notebook
+Process     : java <5945>
+Thread      : durability 7f1e241b0700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_serviceChangeState/v_service.c/329/0/1519937327.026636380
+========================================================================================
+Report      : WARNING
+Date        : Qui Mar 01 17:50:14 -03 2018
+Description : Did not install signal handlers to cleanup resources.
+              To ensure cleanup for Java applications, the path to the 'jsig' library
+              (libjsig.so) must be set in the LD_PRELOAD environment variable.
+              This library is part of your Java distribution.
+              To ensure proper cleanup set this before starting your application.
+Node        : meslin-notebook
+Process     : java <6116>
+Thread      : main thread 7f10728ca700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/OS abstraction layer/os_signalHandler.c/107/0/1519937414.169367597
+========================================================================================
+Report      : INFO
+Date        : Qui Mar 01 17:50:14 -03 2018
+Description : u_domainNew:Database allocated on heap
+Node        : meslin-notebook
+Process     : java <6116>
+Thread      : spliced 7f104936c700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/user::u_domain::u_domainNew/u_domain.c/706/0/1519937414.179497908
+========================================================================================
+Report      : INFO
+Date        : Qui Mar 01 17:50:14 -03 2018
+Description : ---------------------------------------------------------------
+              -- The service is using the following configuration settings --
+              ---------------------------------------------------------------
+              Domain (id)          : ospl_sp_ddsi (0)
+              Storage              : 10240 Kbytes
+              Storage threshold    : 1024 Kbytes
+              Storage address      : Not available
+              Locking              : default
+              Memory mode          : Heap memory
+              Builtin topics       : true
+              Priority inheritance : false
+Node        : meslin-notebook
+Process     : java <6116>
+Thread      : spliced 7f104936c700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/The OpenSplice domain service/u_domain.c/827/0/1519937414.186388828
+========================================================================================
+Report      : INFO
+Date        : Qui Mar 01 17:50:14 -03 2018
+Description : Service cmsoap disabled
+Node        : meslin-notebook
+Process     : java <6116>
+Thread      : spliced 7f104936c700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/OpenSplice domain service/sr_componentInfo.c/439/0/1519937414.190992352
+========================================================================================
+Report      : INFO
+Date        : Qui Mar 01 17:50:14 -03 2018
+Description : ++++++++++++++++++++++++++++++++++++++++++++++++
+              ++ The service 'splicedaemon' is now operational. 
+              ++++++++++++++++++++++++++++++++++++++++++++++++
+Node        : meslin-notebook
+Process     : java <6116>
+Thread      : spliced 7f104936c700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_serviceChangeState/v_service.c/329/0/1519937414.197277676
+========================================================================================
+Report      : INFO
+Date        : Qui Mar 01 17:50:14 -03 2018
+Description : ++++++++++++++++++++++++++++++++++++++++++++++++
+              ++ The service 'ddsi2' is now operational. 
+              ++++++++++++++++++++++++++++++++++++++++++++++++
+Node        : meslin-notebook
+Process     : java <6116>
+Thread      : ddsi2 7f1048842700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_serviceChangeState/v_service.c/329/0/1519937414.225351524
+========================================================================================
+Report      : INFO
+Date        : Qui Mar 01 17:50:14 -03 2018
+Description : The durability service can by identified by ID: 1763822198
+Node        : meslin-notebook
+Process     : java <6116>
+Thread      : durability 7f1048bb1700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/DurabilityService/d_durability.c/476/0/1519937414.629960696
+========================================================================================
+Report      : INFO
+Date        : Qui Mar 01 17:50:22 -03 2018
+Description : ++++++++++++++++++++++++++++++++++++++++++++++++
+              ++ The service 'durability' is now operational. 
+              ++++++++++++++++++++++++++++++++++++++++++++++++
+Node        : meslin-notebook
+Process     : java <6116>
+Thread      : durability 7f1048bb1700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_serviceChangeState/v_service.c/329/0/1519937422.035028712
+========================================================================================
+Report      : WARNING
+Date        : Qui Mar 01 17:51:03 -03 2018
+Description : Did not install signal handlers to cleanup resources.
+              To ensure cleanup for Java applications, the path to the 'jsig' library
+              (libjsig.so) must be set in the LD_PRELOAD environment variable.
+              This library is part of your Java distribution.
+              To ensure proper cleanup set this before starting your application.
+Node        : meslin-notebook
+Process     : java <6262>
+Thread      : main thread 7f880af9a700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/OS abstraction layer/os_signalHandler.c/107/0/1519937463.352844006
+========================================================================================
+Report      : INFO
+Date        : Qui Mar 01 17:51:03 -03 2018
+Description : u_domainNew:Database allocated on heap
+Node        : meslin-notebook
+Process     : java <6262>
+Thread      : spliced 7f87dc098700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/user::u_domain::u_domainNew/u_domain.c/706/0/1519937463.360966654
+========================================================================================
+Report      : INFO
+Date        : Qui Mar 01 17:51:03 -03 2018
+Description : ---------------------------------------------------------------
+              -- The service is using the following configuration settings --
+              ---------------------------------------------------------------
+              Domain (id)          : ospl_sp_ddsi (0)
+              Storage              : 10240 Kbytes
+              Storage threshold    : 1024 Kbytes
+              Storage address      : Not available
+              Locking              : default
+              Memory mode          : Heap memory
+              Builtin topics       : true
+              Priority inheritance : false
+Node        : meslin-notebook
+Process     : java <6262>
+Thread      : spliced 7f87dc098700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/The OpenSplice domain service/u_domain.c/827/0/1519937463.369207142
+========================================================================================
+Report      : INFO
+Date        : Qui Mar 01 17:51:03 -03 2018
+Description : Service cmsoap disabled
+Node        : meslin-notebook
+Process     : java <6262>
+Thread      : spliced 7f87dc098700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/OpenSplice domain service/sr_componentInfo.c/439/0/1519937463.369529412
+========================================================================================
+Report      : INFO
+Date        : Qui Mar 01 17:51:03 -03 2018
+Description : ++++++++++++++++++++++++++++++++++++++++++++++++
+              ++ The service 'splicedaemon' is now operational. 
+              ++++++++++++++++++++++++++++++++++++++++++++++++
+Node        : meslin-notebook
+Process     : java <6262>
+Thread      : spliced 7f87dc098700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_serviceChangeState/v_service.c/329/0/1519937463.377465056
+========================================================================================
+Report      : INFO
+Date        : Qui Mar 01 17:51:03 -03 2018
+Description : ++++++++++++++++++++++++++++++++++++++++++++++++
+              ++ The service 'ddsi2' is now operational. 
+              ++++++++++++++++++++++++++++++++++++++++++++++++
+Node        : meslin-notebook
+Process     : java <6262>
+Thread      : ddsi2 7f87a5c4f700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_serviceChangeState/v_service.c/329/0/1519937463.388422978
+========================================================================================
+Report      : INFO
+Date        : Qui Mar 01 17:51:03 -03 2018
+Description : The durability service can by identified by ID: 978988105
+Node        : meslin-notebook
+Process     : java <6262>
+Thread      : durability 7f87a5fbe700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/DurabilityService/d_durability.c/476/0/1519937463.990103156
+========================================================================================
+Report      : INFO
+Date        : Qui Mar 01 17:51:11 -03 2018
+Description : ++++++++++++++++++++++++++++++++++++++++++++++++
+              ++ The service 'durability' is now operational. 
+              ++++++++++++++++++++++++++++++++++++++++++++++++
+Node        : meslin-notebook
+Process     : java <6262>
+Thread      : durability 7f87a5fbe700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_serviceChangeState/v_service.c/329/0/1519937471.399119368
+========================================================================================
+Report      : WARNING
+Date        : Qui Mar 01 17:52:30 -03 2018
+Description : Did not install signal handlers to cleanup resources.
+              To ensure cleanup for Java applications, the path to the 'jsig' library
+              (libjsig.so) must be set in the LD_PRELOAD environment variable.
+              This library is part of your Java distribution.
+              To ensure proper cleanup set this before starting your application.
+Node        : meslin-notebook
+Process     : java <6419>
+Thread      : main thread 7f4883d80700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/OS abstraction layer/os_signalHandler.c/107/0/1519937550.968076375
+========================================================================================
+Report      : INFO
+Date        : Qui Mar 01 17:52:30 -03 2018
+Description : u_domainNew:Database allocated on heap
+Node        : meslin-notebook
+Process     : java <6419>
+Thread      : spliced 7f4864031700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/user::u_domain::u_domainNew/u_domain.c/706/0/1519937550.975434341
+========================================================================================
+Report      : INFO
+Date        : Qui Mar 01 17:52:30 -03 2018
+Description : ---------------------------------------------------------------
+              -- The service is using the following configuration settings --
+              ---------------------------------------------------------------
+              Domain (id)          : ospl_sp_ddsi (0)
+              Storage              : 10240 Kbytes
+              Storage threshold    : 1024 Kbytes
+              Storage address      : Not available
+              Locking              : default
+              Memory mode          : Heap memory
+              Builtin topics       : true
+              Priority inheritance : false
+Node        : meslin-notebook
+Process     : java <6419>
+Thread      : spliced 7f4864031700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/The OpenSplice domain service/u_domain.c/827/0/1519937550.982642751
+========================================================================================
+Report      : INFO
+Date        : Qui Mar 01 17:52:30 -03 2018
+Description : Service cmsoap disabled
+Node        : meslin-notebook
+Process     : java <6419>
+Thread      : spliced 7f4864031700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/OpenSplice domain service/sr_componentInfo.c/439/0/1519937550.982995870
+========================================================================================
+Report      : INFO
+Date        : Qui Mar 01 17:52:30 -03 2018
+Description : ++++++++++++++++++++++++++++++++++++++++++++++++
+              ++ The service 'splicedaemon' is now operational. 
+              ++++++++++++++++++++++++++++++++++++++++++++++++
+Node        : meslin-notebook
+Process     : java <6419>
+Thread      : spliced 7f4864031700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_serviceChangeState/v_service.c/329/0/1519937550.983647079
+========================================================================================
+Report      : INFO
+Date        : Qui Mar 01 17:52:31 -03 2018
+Description : ++++++++++++++++++++++++++++++++++++++++++++++++
+              ++ The service 'ddsi2' is now operational. 
+              ++++++++++++++++++++++++++++++++++++++++++++++++
+Node        : meslin-notebook
+Process     : java <6419>
+Thread      : ddsi2 7f481adeb700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_serviceChangeState/v_service.c/329/0/1519937551.014360622
+========================================================================================
+Report      : INFO
+Date        : Qui Mar 01 17:52:31 -03 2018
+Description : The durability service can by identified by ID: 924534493
+Node        : meslin-notebook
+Process     : java <6419>
+Thread      : durability 7f481b15a700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/DurabilityService/d_durability.c/476/0/1519937551.715705672
+========================================================================================
+Report      : INFO
+Date        : Qui Mar 01 17:52:39 -03 2018
+Description : ++++++++++++++++++++++++++++++++++++++++++++++++
+              ++ The service 'durability' is now operational. 
+              ++++++++++++++++++++++++++++++++++++++++++++++++
+Node        : meslin-notebook
+Process     : java <6419>
+Thread      : durability 7f481b15a700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_serviceChangeState/v_service.c/329/0/1519937559.122564003
+========================================================================================
+Report      : WARNING
+Date        : Qui Mar 01 18:14:20 -03 2018
+Description : Missed heartbeat for node - heartbeat id : 415611260. (DCPSPublication state 1)
+Node        : meslin-notebook
+Process     : java <6116>
+Thread      : OSPL Garbage Collector 7f1048ea2700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_spliced/v_spliced.c/2439/0/1519938860.279231218
+========================================================================================
+Report      : WARNING
+Date        : Qui Mar 01 18:14:20 -03 2018
+Description : Missed heartbeat for node - heartbeat id : 978988105. (DCPSPublication state 1)
+Node        : meslin-notebook
+Process     : java <6116>
+Thread      : OSPL Garbage Collector 7f1048ea2700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_spliced/v_spliced.c/2439/0/1519938860.299691010
+========================================================================================
+Report      : WARNING
+Date        : Qui Mar 01 18:14:21 -03 2018
+Description : Missed heartbeat for node - heartbeat id : 415611260. (DCPSPublication state 1)
+Node        : meslin-notebook
+Process     : java <6419>
+Thread      : OSPL Garbage Collector 7f481b43a700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_spliced/v_spliced.c/2439/0/1519938861.047073649
+========================================================================================
+Report      : WARNING
+Date        : Qui Mar 01 18:14:21 -03 2018
+Description : Missed heartbeat for node - heartbeat id : 481959297. (DCPSPublication state 1)
+Node        : meslin-notebook
+Process     : java <6419>
+Thread      : OSPL Garbage Collector 7f481b43a700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_spliced/v_spliced.c/2439/0/1519938861.067649999
+========================================================================================
+Report      : WARNING
+Date        : Qui Mar 01 18:14:21 -03 2018
+Description : Missed heartbeat for node - heartbeat id : 978988105. (DCPSPublication state 1)
+Node        : meslin-notebook
+Process     : java <6419>
+Thread      : OSPL Garbage Collector 7f481b43a700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_spliced/v_spliced.c/2439/0/1519938861.088106313
+========================================================================================
+Report      : WARNING
+Date        : Qui Mar 01 18:14:21 -03 2018
+Description : Missed heartbeat for node - heartbeat id : 1763822198. (DCPSPublication state 1)
+Node        : meslin-notebook
+Process     : java <6419>
+Thread      : OSPL Garbage Collector 7f481b43a700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_spliced/v_spliced.c/2439/0/1519938861.148030746
+========================================================================================
+Report      : WARNING
+Date        : Qui Mar 01 18:14:21 -03 2018
+Description : Missed heartbeat for node - heartbeat id : 415611260. (DCPSPublication state 1)
+Node        : meslin-notebook
+Process     : java <5945>
+Thread      : OSPL Garbage Collector 7f1e24242700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_spliced/v_spliced.c/2439/0/1519938861.188425912
+========================================================================================
+Report      : WARNING
+Date        : Qui Mar 01 18:14:21 -03 2018
+Description : Missed heartbeat for node - heartbeat id : 481959297. (DCPSPublication state 1)
+Node        : meslin-notebook
+Process     : java <5945>
+Thread      : OSPL Garbage Collector 7f1e24242700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_spliced/v_spliced.c/2439/0/1519938861.209187623
+========================================================================================
+Report      : WARNING
+Date        : Qui Mar 01 18:14:21 -03 2018
+Description : Missed heartbeat for node - heartbeat id : 924534493. (DCPSPublication state 1)
+Node        : meslin-notebook
+Process     : java <5945>
+Thread      : OSPL Garbage Collector 7f1e24242700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_spliced/v_spliced.c/2439/0/1519938861.229781366
+========================================================================================
+Report      : WARNING
+Date        : Qui Mar 01 18:14:21 -03 2018
+Description : Missed heartbeat for node - heartbeat id : 978988105. (DCPSPublication state 1)
+Node        : meslin-notebook
+Process     : java <5945>
+Thread      : OSPL Garbage Collector 7f1e24242700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_spliced/v_spliced.c/2439/0/1519938861.250361605
+========================================================================================
+Report      : WARNING
+Date        : Qui Mar 01 18:14:21 -03 2018
+Description : Missed heartbeat for node - heartbeat id : 1763822198. (DCPSPublication state 1)
+Node        : meslin-notebook
+Process     : java <5945>
+Thread      : OSPL Garbage Collector 7f1e24242700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_spliced/v_spliced.c/2439/0/1519938861.270860474
+========================================================================================
+Report      : WARNING
+Date        : Qui Mar 01 18:14:21 -03 2018
+Description : Missed heartbeat for node - heartbeat id : 18999040. (DCPSPublication state 1)
+Node        : meslin-notebook
+Process     : java <6262>
+Thread      : OSPL Garbage Collector 7f87a629e700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_spliced/v_spliced.c/2439/0/1519938861.446794889
+========================================================================================
+Report      : WARNING
+Date        : Qui Mar 01 18:14:21 -03 2018
+Description : Missed heartbeat for node - heartbeat id : 415611260. (DCPSPublication state 1)
+Node        : meslin-notebook
+Process     : java <6262>
+Thread      : OSPL Garbage Collector 7f87a629e700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_spliced/v_spliced.c/2439/0/1519938861.467317995
+========================================================================================
+Report      : WARNING
+Date        : Qui Mar 01 18:14:21 -03 2018
+Description : Missed heartbeat for node - heartbeat id : 481959297. (DCPSPublication state 1)
+Node        : meslin-notebook
+Process     : java <6262>
+Thread      : OSPL Garbage Collector 7f87a629e700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_spliced/v_spliced.c/2439/0/1519938861.487736088
+========================================================================================
+Report      : WARNING
+Date        : Qui Mar 01 18:14:21 -03 2018
+Description : Missed heartbeat for node - heartbeat id : 924534493. (DCPSPublication state 1)
+Node        : meslin-notebook
+Process     : java <6262>
+Thread      : OSPL Garbage Collector 7f87a629e700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_spliced/v_spliced.c/2439/0/1519938861.508678777
+========================================================================================
+Report      : WARNING
+Date        : Qui Mar 01 18:14:21 -03 2018
+Description : Missed heartbeat for node - heartbeat id : 1763822198. (DCPSPublication state 1)
+Node        : meslin-notebook
+Process     : java <6262>
+Thread      : OSPL Garbage Collector 7f87a629e700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_spliced/v_spliced.c/2439/0/1519938861.529167871
+========================================================================================
+Report      : WARNING
+Date        : Qui Mar 01 18:14:22 -03 2018
+Description : Missed heartbeat for node - heartbeat id : 18999040. (DCPSPublication state 1)
+Node        : meslin-notebook
+Process     : java <6116>
+Thread      : OSPL Garbage Collector 7f1048ea2700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_spliced/v_spliced.c/2439/0/1519938862.268266817
+========================================================================================
+Report      : WARNING
+Date        : Qui Mar 01 18:14:22 -03 2018
+Description : Missed heartbeat for node - heartbeat id : 481959297. (DCPSPublication state 1)
+Node        : meslin-notebook
+Process     : java <6116>
+Thread      : OSPL Garbage Collector 7f1048ea2700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_spliced/v_spliced.c/2439/0/1519938862.288639378
+========================================================================================
+Report      : WARNING
+Date        : Qui Mar 01 18:14:22 -03 2018
+Description : Missed heartbeat for node - heartbeat id : 924534493. (DCPSPublication state 1)
+Node        : meslin-notebook
+Process     : java <6116>
+Thread      : OSPL Garbage Collector 7f1048ea2700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_spliced/v_spliced.c/2439/0/1519938862.309817626
+========================================================================================
+Report      : WARNING
+Date        : Qui Mar 01 18:14:23 -03 2018
+Description : Missed heartbeat for node - heartbeat id : 18999040. (DCPSPublication state 1)
+Node        : meslin-notebook
+Process     : java <6419>
+Thread      : OSPL Garbage Collector 7f481b43a700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_spliced/v_spliced.c/2439/0/1519938863.044543707
+========================================================================================
+Report      : WARNING
+Date        : Qui Mar 01 21:03:39 -03 2018
+Description : thread tev failed to make progress
+
+Node        : meslin-notebook
+Process     : java <6262>
+Thread      : lease 7f87b4023700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/ddsi2/q_servicelease.c/108/0/1519949019.561528190
+========================================================================================
+Report      : WARNING
+Date        : Qui Mar 01 21:03:40 -03 2018
+Description : thread tev failed to make progress
+
+Node        : meslin-notebook
+Process     : java <5945>
+Thread      : lease 7f1e149ec700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/ddsi2/q_servicelease.c/108/0/1519949020.306365084
+========================================================================================
+Report      : WARNING
+Date        : Qui Mar 01 21:03:40 -03 2018
+Description : thread xmit.user failed to make progress
+
+Node        : meslin-notebook
+Process     : java <6419>
+Thread      : lease 7f481ab02700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/ddsi2/q_servicelease.c/108/0/1519949020.193645674
+========================================================================================
+Report      : WARNING
+Date        : Qui Mar 01 21:03:41 -03 2018
+Description : thread tev failed to make progress
+
+Node        : meslin-notebook
+Process     : java <6116>
+Thread      : lease 7f104865a700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/ddsi2/q_servicelease.c/108/0/1519949021.386930850
+========================================================================================
+Report      : WARNING
+Date        : Qui Mar 01 21:03:42 -03 2018
+Description : thread tev once again made progress
+
+Node        : meslin-notebook
+Process     : java <6262>
+Thread      : lease 7f87b4023700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/ddsi2/q_servicelease.c/108/0/1519949022.846493466
+========================================================================================
+Report      : WARNING
+Date        : Qui Mar 01 21:03:42 -03 2018
+Description : thread tev once again made progress
+
+Node        : meslin-notebook
+Process     : java <5945>
+Thread      : lease 7f1e149ec700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/ddsi2/q_servicelease.c/108/0/1519949022.846623432
+========================================================================================
+Report      : WARNING
+Date        : Qui Mar 01 21:03:43 -03 2018
+Description : thread xmit.user once again made progress
+
+Node        : meslin-notebook
+Process     : java <6419>
+Thread      : lease 7f481ab02700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/ddsi2/q_servicelease.c/108/0/1519949023.057197343
+========================================================================================
+Report      : WARNING
+Date        : Qui Mar 01 21:03:43 -03 2018
+Description : thread tev once again made progress
+
+Node        : meslin-notebook
+Process     : java <6116>
+Thread      : lease 7f104865a700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/ddsi2/q_servicelease.c/108/0/1519949023.057405463
+========================================================================================
+Report      : WARNING
+Date        : Qui Mar 01 21:03:47 -03 2018
+Description : Missed heartbeat for node - heartbeat id : 415611260. (DCPSPublication state 1)
+Node        : meslin-notebook
+Process     : java <6116>
+Thread      : OSPL Garbage Collector 7f1048ea2700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_spliced/v_spliced.c/2439/0/1519949027.296429689
+========================================================================================
+Report      : WARNING
+Date        : Qui Mar 01 21:03:47 -03 2018
+Description : Missed heartbeat for node - heartbeat id : 415611260. (DCPSPublication state 1)
+Node        : meslin-notebook
+Process     : java <6419>
+Thread      : OSPL Garbage Collector 7f481b43a700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_spliced/v_spliced.c/2439/0/1519949027.594822966
+========================================================================================
+Report      : WARNING
+Date        : Qui Mar 01 21:03:47 -03 2018
+Description : Missed heartbeat for node - heartbeat id : 481959297. (DCPSPublication state 1)
+Node        : meslin-notebook
+Process     : java <6419>
+Thread      : OSPL Garbage Collector 7f481b43a700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_spliced/v_spliced.c/2439/0/1519949027.615084312
+========================================================================================
+Report      : WARNING
+Date        : Qui Mar 01 21:03:47 -03 2018
+Description : Missed heartbeat for node - heartbeat id : 1763822198. (DCPSPublication state 1)
+Node        : meslin-notebook
+Process     : java <6419>
+Thread      : OSPL Garbage Collector 7f481b43a700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_spliced/v_spliced.c/2439/0/1519949027.635348798
+========================================================================================
+Report      : WARNING
+Date        : Qui Mar 01 21:03:47 -03 2018
+Description : Missed heartbeat for node - heartbeat id : 415611260. (DCPSPublication state 1)
+Node        : meslin-notebook
+Process     : java <5945>
+Thread      : OSPL Garbage Collector 7f1e24242700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_spliced/v_spliced.c/2439/0/1519949027.771306946
+========================================================================================
+Report      : WARNING
+Date        : Qui Mar 01 21:03:47 -03 2018
+Description : Missed heartbeat for node - heartbeat id : 481959297. (DCPSPublication state 1)
+Node        : meslin-notebook
+Process     : java <5945>
+Thread      : OSPL Garbage Collector 7f1e24242700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_spliced/v_spliced.c/2439/0/1519949027.791616657
+========================================================================================
+Report      : WARNING
+Date        : Qui Mar 01 21:03:47 -03 2018
+Description : Missed heartbeat for node - heartbeat id : 924534493. (DCPSPublication state 1)
+Node        : meslin-notebook
+Process     : java <5945>
+Thread      : OSPL Garbage Collector 7f1e24242700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_spliced/v_spliced.c/2439/0/1519949027.811938662
+========================================================================================
+Report      : WARNING
+Date        : Qui Mar 01 21:03:47 -03 2018
+Description : Missed heartbeat for node - heartbeat id : 1763822198. (DCPSPublication state 1)
+Node        : meslin-notebook
+Process     : java <5945>
+Thread      : OSPL Garbage Collector 7f1e24242700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_spliced/v_spliced.c/2439/0/1519949027.832226129
+========================================================================================
+Report      : WARNING
+Date        : Qui Mar 01 21:03:47 -03 2018
+Description : Missed heartbeat for node - heartbeat id : 18999040. (DCPSPublication state 1)
+Node        : meslin-notebook
+Process     : java <6262>
+Thread      : OSPL Garbage Collector 7f87a629e700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_spliced/v_spliced.c/2439/0/1519949027.955522204
+========================================================================================
+Report      : WARNING
+Date        : Qui Mar 01 21:03:47 -03 2018
+Description : Missed heartbeat for node - heartbeat id : 415611260. (DCPSPublication state 1)
+Node        : meslin-notebook
+Process     : java <6262>
+Thread      : OSPL Garbage Collector 7f87a629e700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_spliced/v_spliced.c/2439/0/1519949027.975772264
+========================================================================================
+Report      : WARNING
+Date        : Qui Mar 01 21:03:47 -03 2018
+Description : Missed heartbeat for node - heartbeat id : 481959297. (DCPSPublication state 1)
+Node        : meslin-notebook
+Process     : java <6262>
+Thread      : OSPL Garbage Collector 7f87a629e700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_spliced/v_spliced.c/2439/0/1519949027.995972615
+========================================================================================
+Report      : WARNING
+Date        : Qui Mar 01 21:03:48 -03 2018
+Description : Missed heartbeat for node - heartbeat id : 924534493. (DCPSPublication state 1)
+Node        : meslin-notebook
+Process     : java <6262>
+Thread      : OSPL Garbage Collector 7f87a629e700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_spliced/v_spliced.c/2439/0/1519949028.016146057
+========================================================================================
+Report      : WARNING
+Date        : Qui Mar 01 21:03:48 -03 2018
+Description : Missed heartbeat for node - heartbeat id : 1763822198. (DCPSPublication state 1)
+Node        : meslin-notebook
+Process     : java <6262>
+Thread      : OSPL Garbage Collector 7f87a629e700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_spliced/v_spliced.c/2439/0/1519949028.036334247
+========================================================================================
+Report      : WARNING
+Date        : Qui Mar 01 21:05:26 -03 2018
+Description : Processing of lease 0x7f0fd0001c50 is behind schedule; expiry-time=1519949037.217423369s and lag=88.854429354s (actionId=1 and duration=10.000000000s). Assuming resuming after hibernate...
+Node        : meslin-notebook
+Process     : java <6116>
+Thread      : watchdog 7f1049159700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_leaseManager/v_leaseManager.c/775/0/1519949126.071868447
+========================================================================================
+Report      : WARNING
+Date        : Qui Mar 01 21:05:26 -03 2018
+Description : Processing of lease 0x7f8794093ff0 is behind schedule; expiry-time=1519949037.939806060s and lag=88.132894984s (actionId=1 and duration=10.000000000s). Assuming resuming after hibernate...
+Node        : meslin-notebook
+Process     : java <6262>
+Thread      : watchdog 7f87dc043700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_leaseManager/v_leaseManager.c/775/0/1519949126.072710705
+========================================================================================
+Report      : WARNING
+Date        : Qui Mar 01 21:05:26 -03 2018
+Description : Processing of lease 0x7f8794093ff0 is behind schedule; expiry-time=1519949037.939806060s and lag=88.132947684s (actionId=7 and duration=10.000000000s). Assuming resuming after hibernate...
+Node        : meslin-notebook
+Process     : java <6262>
+Thread      : watchdog 7f87a4ad8700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_leaseManager/v_leaseManager.c/775/0/1519949126.072766515
+========================================================================================
+Report      : WARNING
+Date        : Qui Mar 01 21:05:26 -03 2018
+Description : Processing of lease 0x7f0ff8093ff0 is behind schedule; expiry-time=1519949036.775067293s and lag=89.297285842s (actionId=7 and duration=10.000000000s). Assuming resuming after hibernate...
+Node        : meslin-notebook
+Process     : java <6116>
+Thread      : watchdog 7f101041b700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_leaseManager/v_leaseManager.c/775/0/1519949126.072363013
+========================================================================================
+Report      : WARNING
+Date        : Qui Mar 01 21:05:26 -03 2018
+Description : Processing of lease 0x7f4808093ff0 is behind schedule; expiry-time=1519949037.542282078s and lag=88.530493876s (actionId=7 and duration=10.000000000s). Assuming resuming after hibernate...
+Node        : meslin-notebook
+Process     : java <6419>
+Thread      : watchdog 7f48198be700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_leaseManager/v_leaseManager.c/775/0/1519949126.072784419
+========================================================================================
+Report      : WARNING
+Date        : Qui Mar 01 21:05:26 -03 2018
+Description : Processing of lease 0x7f1e0c093ff0 is behind schedule; expiry-time=1519949037.666709137s and lag=88.406107907s (actionId=7 and duration=10.000000000s). Assuming resuming after hibernate...
+Node        : meslin-notebook
+Process     : java <5945>
+Thread      : watchdog 7f1ddf366700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_leaseManager/v_leaseManager.c/775/0/1519949126.072823745
+========================================================================================
+Report      : WARNING
+Date        : Qui Mar 01 21:05:26 -03 2018
+Description : Processing of lease 0x7f1e0c093ff0 is behind schedule; expiry-time=1519949037.666709137s and lag=88.406187645s (actionId=1 and duration=10.000000000s). Assuming resuming after hibernate...
+Node        : meslin-notebook
+Process     : java <5945>
+Thread      : watchdog 7f1e2402e700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_leaseManager/v_leaseManager.c/775/0/1519949126.072903329
+========================================================================================
+Report      : WARNING
+Date        : Qui Mar 01 21:05:26 -03 2018
+Description : Processing of lease 0x7f8794093ff0 is behind schedule; expiry-time=1519949037.939806060s and lag=88.132989665s (actionId=1 and duration=10.000000000s). Assuming resuming after hibernate...
+Node        : meslin-notebook
+Process     : java <6262>
+Thread      : watchdog 7f87dc010700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_leaseManager/v_leaseManager.c/775/0/1519949126.072808239
+========================================================================================
+Report      : WARNING
+Date        : Qui Mar 01 21:05:26 -03 2018
+Description : Processing of lease 0x7f8768001c50 is behind schedule; expiry-time=1519949036.583364255s and lag=89.489508881s (actionId=1 and duration=10.000000000s). Assuming resuming after hibernate...
+Node        : meslin-notebook
+Process     : java <6262>
+Thread      : watchdog 7f87dc087700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_leaseManager/v_leaseManager.c/775/0/1519949126.072887370
+========================================================================================
+Report      : WARNING
+Date        : Qui Mar 01 21:05:26 -03 2018
+Description : Processing of lease 0x7f4808093ff0 is behind schedule; expiry-time=1519949037.542282078s and lag=88.530551353s (actionId=1 and duration=10.000000000s). Assuming resuming after hibernate...
+Node        : meslin-notebook
+Process     : java <6419>
+Thread      : watchdog 7f481ab35700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_leaseManager/v_leaseManager.c/775/0/1519949126.072846631
+========================================================================================
+Report      : WARNING
+Date        : Qui Mar 01 21:05:26 -03 2018
+Description : Processing of lease 0x7f0ff8093ff0 is behind schedule; expiry-time=1519949036.775067293s and lag=89.297668988s (actionId=1 and duration=10.000000000s). Assuming resuming after hibernate...
+Node        : meslin-notebook
+Process     : java <6116>
+Thread      : watchdog 7f10486c0700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_leaseManager/v_leaseManager.c/775/0/1519949126.072743993
+========================================================================================
+Report      : WARNING
+Date        : Qui Mar 01 21:05:26 -03 2018
+Description : Processing of lease 0x7f0ff8093ff0 is behind schedule; expiry-time=1519949036.775067293s and lag=89.297789414s (actionId=1 and duration=10.000000000s). Assuming resuming after hibernate...
+Node        : meslin-notebook
+Process     : java <6116>
+Thread      : watchdog 7f104868d700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_leaseManager/v_leaseManager.c/775/0/1519949126.072863233
+========================================================================================
+Report      : WARNING
+Date        : Qui Mar 01 21:05:26 -03 2018
+Description : Processing of lease 0x7f1de0001b00 is behind schedule; expiry-time=1519949038.236708424s and lag=87.836637800s (actionId=1 and duration=10.000000000s). Assuming resuming after hibernate...
+Node        : meslin-notebook
+Process     : java <5945>
+Thread      : watchdog 7f1e5c02a700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_leaseManager/v_leaseManager.c/775/0/1519949126.073357845
+========================================================================================
+Report      : WARNING
+Date        : Qui Mar 01 21:05:26 -03 2018
+Description : Processing of lease 0x7f4808093ff0 is behind schedule; expiry-time=1519949037.542282078s and lag=88.530630677s (actionId=1 and duration=10.000000000s). Assuming resuming after hibernate...
+Node        : meslin-notebook
+Process     : java <6419>
+Thread      : watchdog 7f481ac69700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_leaseManager/v_leaseManager.c/775/0/1519949126.072919062
+========================================================================================
+Report      : WARNING
+Date        : Qui Mar 01 21:05:26 -03 2018
+Description : Processing of lease 0x7f879400a5a0 is behind schedule; expiry-time=1519949029.939276101s and lag=96.133597035s (actionId=6 and duration=2.000000000s). This is often an indication that the machine is too busy. The lease manager will continue to function normally.
+Node        : meslin-notebook
+Process     : java <6262>
+Thread      : watchdog 7f87dc087700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_leaseManager/v_leaseManager.c/795/0/1519949126.961135768
+========================================================================================
+Report      : WARNING
+Date        : Qui Mar 01 21:05:26 -03 2018
+Description : Processing of lease 0x7f47e4001b00 is behind schedule; expiry-time=1519949038.289572432s and lag=87.783362034s (actionId=1 and duration=10.000000000s). Assuming resuming after hibernate...
+Node        : meslin-notebook
+Process     : java <6419>
+Thread      : watchdog 7f4864020700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_leaseManager/v_leaseManager.c/775/0/1519949126.072939997
+========================================================================================
+Report      : WARNING
+Date        : Qui Mar 01 21:05:26 -03 2018
+Description : Processing of lease 0x7f879400a610 is behind schedule; expiry-time=1519949029.939162407s and lag=96.133710729s (actionId=5 and duration=2.000000000s). This is often an indication that the machine is too busy. The lease manager will continue to function normally.
+Node        : meslin-notebook
+Process     : java <6262>
+Thread      : watchdog 7f87dc087700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_leaseManager/v_leaseManager.c/795/0/1519949126.961726528
+========================================================================================
+Report      : WARNING
+Date        : Qui Mar 01 21:05:26 -03 2018
+Description : Processing of lease 0x7f480800a5a0 is behind schedule; expiry-time=1519949029.592483028s and lag=96.480451438s (actionId=6 and duration=2.000000000s). This is often an indication that the machine is too busy. The lease manager will continue to function normally.
+Node        : meslin-notebook
+Process     : java <6419>
+Thread      : watchdog 7f4864020700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_leaseManager/v_leaseManager.c/795/0/1519949126.961815255
+========================================================================================
+Report      : WARNING
+Date        : Qui Mar 01 21:05:26 -03 2018
+Description : Processing of lease 0x7f1e0c093ff0 is behind schedule; expiry-time=1519949037.666709137s and lag=88.405962614s (actionId=1 and duration=10.000000000s). Assuming resuming after hibernate...
+Node        : meslin-notebook
+Process     : java <5945>
+Thread      : watchdog 7f1e14a1f700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_leaseManager/v_leaseManager.c/775/0/1519949126.072687530
+========================================================================================
+Report      : WARNING
+Date        : Qui Mar 01 21:05:26 -03 2018
+Description : Processing of lease 0x7f0ff800a5a0 is behind schedule; expiry-time=1519949028.782589001s and lag=97.289263722s (actionId=6 and duration=2.000000000s). This is often an indication that the machine is too busy. The lease manager will continue to function normally.
+Node        : meslin-notebook
+Process     : java <6116>
+Thread      : watchdog 7f1049159700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_leaseManager/v_leaseManager.c/795/0/1519949126.960246314
+========================================================================================
+Report      : WARNING
+Date        : Qui Mar 01 21:05:26 -03 2018
+Description : Processing of lease 0x7f480800a610 is behind schedule; expiry-time=1519949029.541242635s and lag=96.531691831s (actionId=5 and duration=2.000000000s). This is often an indication that the machine is too busy. The lease manager will continue to function normally.
+Node        : meslin-notebook
+Process     : java <6419>
+Thread      : watchdog 7f4864020700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_leaseManager/v_leaseManager.c/795/0/1519949126.962050775
+========================================================================================
+Report      : WARNING
+Date        : Qui Mar 01 21:05:26 -03 2018
+Description : Processing of lease 0x7f0ff800a610 is behind schedule; expiry-time=1519949028.782565464s and lag=97.289287259s (actionId=5 and duration=2.000000000s). This is often an indication that the machine is too busy. The lease manager will continue to function normally.
+Node        : meslin-notebook
+Process     : java <6116>
+Thread      : watchdog 7f1049159700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_leaseManager/v_leaseManager.c/795/0/1519949126.962158551
+========================================================================================
+Report      : WARNING
+Date        : Qui Mar 01 21:05:26 -03 2018
+Description : Processing of lease 0x7f1e0c00a5a0 is behind schedule; expiry-time=1519949029.759454936s and lag=96.313891288s (actionId=6 and duration=2.000000000s). This is often an indication that the machine is too busy. The lease manager will continue to function normally.
+Node        : meslin-notebook
+Process     : java <5945>
+Thread      : watchdog 7f1e5c02a700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_leaseManager/v_leaseManager.c/795/0/1519949126.961996081
+========================================================================================
+Report      : WARNING
+Date        : Qui Mar 01 21:05:26 -03 2018
+Description : Processing of lease 0x7f1e0c00a610 is behind schedule; expiry-time=1519949029.666686944s and lag=96.406659280s (actionId=5 and duration=2.000000000s). This is often an indication that the machine is too busy. The lease manager will continue to function normally.
+Node        : meslin-notebook
+Process     : java <5945>
+Thread      : watchdog 7f1e5c02a700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_leaseManager/v_leaseManager.c/795/0/1519949126.962632628
+========================================================================================
+Report      : WARNING
+Date        : Qui Mar 01 21:05:26 -03 2018
+Description : Missed heartbeat for node - heartbeat id : 978988105. (DCPSPublication state 1)
+Node        : meslin-notebook
+Process     : java <5945>
+Thread      : OSPL Garbage Collector 7f1e24242700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_spliced/v_spliced.c/2439/0/1519949126.964465395
+========================================================================================
+Report      : WARNING
+Date        : Qui Mar 01 21:05:26 -03 2018
+Description : Missed heartbeat for node - heartbeat id : 18999040. (DCPSPublication state 1)
+Node        : meslin-notebook
+Process     : java <6419>
+Thread      : OSPL Garbage Collector 7f481b43a700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_spliced/v_spliced.c/2439/0/1519949126.977111017
+========================================================================================
+Report      : WARNING
+Date        : Qui Mar 01 21:05:26 -03 2018
+Description : Missed heartbeat for node - heartbeat id : 18999040. (DCPSPublication state 1)
+Node        : meslin-notebook
+Process     : java <6116>
+Thread      : OSPL Garbage Collector 7f1048ea2700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_spliced/v_spliced.c/2439/0/1519949126.979143529
+========================================================================================
+Report      : WARNING
+Date        : Qui Mar 01 21:05:26 -03 2018
+Description : Missed heartbeat for node - heartbeat id : 978988105. (DCPSPublication state 1)
+Node        : meslin-notebook
+Process     : java <6419>
+Thread      : OSPL Garbage Collector 7f481b43a700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_spliced/v_spliced.c/2439/0/1519949126.997411935
+========================================================================================
+Report      : WARNING
+Date        : Qui Mar 01 21:05:26 -03 2018
+Description : Missed heartbeat for node - heartbeat id : 481959297. (DCPSPublication state 1)
+Node        : meslin-notebook
+Process     : java <6116>
+Thread      : OSPL Garbage Collector 7f1048ea2700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_spliced/v_spliced.c/2439/0/1519949126.999400362
+========================================================================================
+Report      : WARNING
+Date        : Qui Mar 01 21:05:27 -03 2018
+Description : Missed heartbeat for node - heartbeat id : 924534493. (DCPSPublication state 1)
+Node        : meslin-notebook
+Process     : java <6116>
+Thread      : OSPL Garbage Collector 7f1048ea2700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_spliced/v_spliced.c/2439/0/1519949127.019616711
+========================================================================================
+Report      : WARNING
+Date        : Qui Mar 01 21:05:27 -03 2018
+Description : Missed heartbeat for node - heartbeat id : 978988105. (DCPSPublication state 1)
+Node        : meslin-notebook
+Process     : java <6116>
+Thread      : OSPL Garbage Collector 7f1048ea2700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_spliced/v_spliced.c/2439/0/1519949127.039804354
+========================================================================================
+Report      : WARNING
+Date        : Qui Mar 01 21:51:31 -03 2018
+Description : Missed heartbeat for node - heartbeat id : 415611260. (DCPSPublication state 1)
+Node        : meslin-notebook
+Process     : java <6262>
+Thread      : OSPL Garbage Collector 7f87a629e700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_spliced/v_spliced.c/2439/0/1519951891.106796089
+========================================================================================
+Report      : WARNING
+Date        : Qui Mar 01 21:51:31 -03 2018
+Description : Missed heartbeat for node - heartbeat id : 415611260. (DCPSPublication state 1)
+Node        : meslin-notebook
+Process     : java <5945>
+Thread      : OSPL Garbage Collector 7f1e24242700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_spliced/v_spliced.c/2439/0/1519951891.114272915
+========================================================================================
+Report      : WARNING
+Date        : Qui Mar 01 21:51:31 -03 2018
+Description : Missed heartbeat for node - heartbeat id : 415611260. (DCPSPublication state 1)
+Node        : meslin-notebook
+Process     : java <6419>
+Thread      : OSPL Garbage Collector 7f481b43a700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_spliced/v_spliced.c/2439/0/1519951891.114276034
+========================================================================================
+Report      : WARNING
+Date        : Qui Mar 01 21:51:31 -03 2018
+Description : Missed heartbeat for node - heartbeat id : 415611260. (DCPSPublication state 1)
+Node        : meslin-notebook
+Process     : java <6116>
+Thread      : OSPL Garbage Collector 7f1048ea2700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_spliced/v_spliced.c/2439/0/1519951891.122260755
+========================================================================================
+Report      : WARNING
+Date        : Qui Mar 01 21:51:41 -03 2018
+Description : Missed heartbeat for node - heartbeat id : 924534493. (DCPSPublication state 1)
+Node        : meslin-notebook
+Process     : java <6116>
+Thread      : OSPL Garbage Collector 7f1048ea2700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_spliced/v_spliced.c/2439/0/1519951901.110485798
+========================================================================================
+Report      : WARNING
+Date        : Qui Mar 01 21:51:41 -03 2018
+Description : Missed heartbeat for node - heartbeat id : 924534493. (DCPSPublication state 1)
+Node        : meslin-notebook
+Process     : java <5945>
+Thread      : OSPL Garbage Collector 7f1e24242700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_spliced/v_spliced.c/2439/0/1519951901.113707335
+========================================================================================
+Report      : WARNING
+Date        : Qui Mar 01 21:51:47 -03 2018
+Description : Missed heartbeat for node - heartbeat id : 978988105. (DCPSPublication state 1)
+Node        : meslin-notebook
+Process     : java <5945>
+Thread      : OSPL Garbage Collector 7f1e24242700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_spliced/v_spliced.c/2439/0/1519951907.104355237
+========================================================================================
+Report      : WARNING
+Date        : Seg Abr 16 17:19:59 -03 2018
+Description : Did not install signal handlers to cleanup resources.
+              To ensure cleanup for Java applications, the path to the 'jsig' library
+              (libjsig.so) must be set in the LD_PRELOAD environment variable.
+              This library is part of your Java distribution.
+              To ensure proper cleanup set this before starting your application.
+Node        : meslin-notebook
+Process     : java <9776>
+Thread      : main thread 7f0929695700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/OS abstraction layer/os_signalHandler.c/107/0/1523909999.518655763
+========================================================================================
+Report      : INFO
+Date        : Seg Abr 16 17:19:59 -03 2018
+Description : u_domainNew:Database allocated on heap
+Node        : meslin-notebook
+Process     : java <9776>
+Thread      : spliced 7f0910018700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/user::u_domain::u_domainNew/u_domain.c/706/0/1523909999.968857018
+========================================================================================
+Report      : INFO
+Date        : Seg Abr 16 17:19:59 -03 2018
+Description : ---------------------------------------------------------------
+              -- The service is using the following configuration settings --
+              ---------------------------------------------------------------
+              Domain (id)          : ospl_sp_ddsi (0)
+              Storage              : 10240 Kbytes
+              Storage threshold    : 1024 Kbytes
+              Storage address      : Not available
+              Locking              : default
+              Memory mode          : Heap memory
+              Builtin topics       : true
+              Priority inheritance : false
+Node        : meslin-notebook
+Process     : java <9776>
+Thread      : spliced 7f0910018700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/The OpenSplice domain service/u_domain.c/827/0/1523909999.996648286
+========================================================================================
+Report      : INFO
+Date        : Seg Abr 16 17:19:59 -03 2018
+Description : Service cmsoap disabled
+Node        : meslin-notebook
+Process     : java <9776>
+Thread      : spliced 7f0910018700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/OpenSplice domain service/sr_componentInfo.c/439/0/1523909999.997003202
+========================================================================================
+Report      : INFO
+Date        : Seg Abr 16 17:19:59 -03 2018
+Description : ++++++++++++++++++++++++++++++++++++++++++++++++
+              ++ The service 'splicedaemon' is now operational. 
+              ++++++++++++++++++++++++++++++++++++++++++++++++
+Node        : meslin-notebook
+Process     : java <9776>
+Thread      : spliced 7f0910018700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_serviceChangeState/v_service.c/329/0/1523909999.997605379
+========================================================================================
+Report      : INFO
+Date        : Seg Abr 16 17:20:00 -03 2018
+Description : ++++++++++++++++++++++++++++++++++++++++++++++++
+              ++ The service 'ddsi2' is now operational. 
+              ++++++++++++++++++++++++++++++++++++++++++++++++
+Node        : meslin-notebook
+Process     : java <9776>
+Thread      : ddsi2 7f089739a700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_serviceChangeState/v_service.c/329/0/1523910000.069904083
+========================================================================================
+Report      : INFO
+Date        : Seg Abr 16 17:20:00 -03 2018
+Description : The durability service can by identified by ID: 1814777760
+Node        : meslin-notebook
+Process     : java <9776>
+Thread      : durability 7f0897709700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/DurabilityService/d_durability.c/476/0/1523910000.129785388
+========================================================================================
+Report      : INFO
+Date        : Seg Abr 16 17:20:07 -03 2018
+Description : ++++++++++++++++++++++++++++++++++++++++++++++++
+              ++ The service 'durability' is now operational. 
+              ++++++++++++++++++++++++++++++++++++++++++++++++
+Node        : meslin-notebook
+Process     : java <9776>
+Thread      : durability 7f0897709700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_serviceChangeState/v_service.c/329/0/1523910007.135821152
+========================================================================================
+Report      : WARNING
+Date        : Seg Abr 16 17:28:54 -03 2018
+Description : Did not install signal handlers to cleanup resources.
+              To ensure cleanup for Java applications, the path to the 'jsig' library
+              (libjsig.so) must be set in the LD_PRELOAD environment variable.
+              This library is part of your Java distribution.
+              To ensure proper cleanup set this before starting your application.
+Node        : meslin-notebook
+Process     : java <10193>
+Thread      : main thread 7fa75ff1c700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/OS abstraction layer/os_signalHandler.c/107/0/1523910534.015271544
+========================================================================================
+Report      : INFO
+Date        : Seg Abr 16 17:28:54 -03 2018
+Description : u_domainNew:Database allocated on heap
+Node        : meslin-notebook
+Process     : java <10193>
+Thread      : spliced 7fa7340aa700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/user::u_domain::u_domainNew/u_domain.c/706/0/1523910534.027417665
+========================================================================================
+Report      : INFO
+Date        : Seg Abr 16 17:28:54 -03 2018
+Description : ---------------------------------------------------------------
+              -- The service is using the following configuration settings --
+              ---------------------------------------------------------------
+              Domain (id)          : ospl_sp_ddsi (0)
+              Storage              : 10240 Kbytes
+              Storage threshold    : 1024 Kbytes
+              Storage address      : Not available
+              Locking              : default
+              Memory mode          : Heap memory
+              Builtin topics       : true
+              Priority inheritance : false
+Node        : meslin-notebook
+Process     : java <10193>
+Thread      : spliced 7fa7340aa700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/The OpenSplice domain service/u_domain.c/827/0/1523910534.034386263
+========================================================================================
+Report      : INFO
+Date        : Seg Abr 16 17:28:54 -03 2018
+Description : Service cmsoap disabled
+Node        : meslin-notebook
+Process     : java <10193>
+Thread      : spliced 7fa7340aa700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/OpenSplice domain service/sr_componentInfo.c/439/0/1523910534.034786222
+========================================================================================
+Report      : INFO
+Date        : Seg Abr 16 17:28:54 -03 2018
+Description : ++++++++++++++++++++++++++++++++++++++++++++++++
+              ++ The service 'splicedaemon' is now operational. 
+              ++++++++++++++++++++++++++++++++++++++++++++++++
+Node        : meslin-notebook
+Process     : java <10193>
+Thread      : spliced 7fa7340aa700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_serviceChangeState/v_service.c/329/0/1523910534.041367347
+========================================================================================
+Report      : INFO
+Date        : Seg Abr 16 17:28:54 -03 2018
+Description : ++++++++++++++++++++++++++++++++++++++++++++++++
+              ++ The service 'ddsi2' is now operational. 
+              ++++++++++++++++++++++++++++++++++++++++++++++++
+Node        : meslin-notebook
+Process     : java <10193>
+Thread      : ddsi2 7fa6f6309700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_serviceChangeState/v_service.c/329/0/1523910534.051774522
+========================================================================================
+Report      : INFO
+Date        : Seg Abr 16 17:28:54 -03 2018
+Description : The durability service can by identified by ID: 141279421
+Node        : meslin-notebook
+Process     : java <10193>
+Thread      : durability 7fa6f6678700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/DurabilityService/d_durability.c/476/0/1523910534.067669553
+========================================================================================
+Report      : INFO
+Date        : Seg Abr 16 17:29:01 -03 2018
+Description : ++++++++++++++++++++++++++++++++++++++++++++++++
+              ++ The service 'durability' is now operational. 
+              ++++++++++++++++++++++++++++++++++++++++++++++++
+Node        : meslin-notebook
+Process     : java <10193>
+Thread      : durability 7fa6f6678700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_serviceChangeState/v_service.c/329/0/1523910541.075781013
+========================================================================================
+Report      : WARNING
+Date        : Seg Abr 16 17:32:15 -03 2018
+Description : Did not install signal handlers to cleanup resources.
+              To ensure cleanup for Java applications, the path to the 'jsig' library
+              (libjsig.so) must be set in the LD_PRELOAD environment variable.
+              This library is part of your Java distribution.
+              To ensure proper cleanup set this before starting your application.
+Node        : meslin-notebook
+Process     : java <10669>
+Thread      : main thread 7fc0ecbae700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/OS abstraction layer/os_signalHandler.c/107/0/1523910735.325175735
+========================================================================================
+Report      : INFO
+Date        : Seg Abr 16 17:32:15 -03 2018
+Description : u_domainNew:Database allocated on heap
+Node        : meslin-notebook
+Process     : java <10669>
+Thread      : spliced 7fc0b8063700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/user::u_domain::u_domainNew/u_domain.c/706/0/1523910735.333711760
+========================================================================================
+Report      : INFO
+Date        : Seg Abr 16 17:32:15 -03 2018
+Description : ---------------------------------------------------------------
+              -- The service is using the following configuration settings --
+              ---------------------------------------------------------------
+              Domain (id)          : ospl_sp_ddsi (0)
+              Storage              : 10240 Kbytes
+              Storage threshold    : 1024 Kbytes
+              Storage address      : Not available
+              Locking              : default
+              Memory mode          : Heap memory
+              Builtin topics       : true
+              Priority inheritance : false
+Node        : meslin-notebook
+Process     : java <10669>
+Thread      : spliced 7fc0b8063700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/The OpenSplice domain service/u_domain.c/827/0/1523910735.345587795
+========================================================================================
+Report      : INFO
+Date        : Seg Abr 16 17:32:15 -03 2018
+Description : Service cmsoap disabled
+Node        : meslin-notebook
+Process     : java <10669>
+Thread      : spliced 7fc0b8063700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/OpenSplice domain service/sr_componentInfo.c/439/0/1523910735.345997088
+========================================================================================
+Report      : INFO
+Date        : Seg Abr 16 17:32:15 -03 2018
+Description : ++++++++++++++++++++++++++++++++++++++++++++++++
+              ++ The service 'splicedaemon' is now operational. 
+              ++++++++++++++++++++++++++++++++++++++++++++++++
+Node        : meslin-notebook
+Process     : java <10669>
+Thread      : spliced 7fc0b8063700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_serviceChangeState/v_service.c/329/0/1523910735.346574533
+========================================================================================
+Report      : INFO
+Date        : Seg Abr 16 17:32:15 -03 2018
+Description : ++++++++++++++++++++++++++++++++++++++++++++++++
+              ++ The service 'ddsi2' is now operational. 
+              ++++++++++++++++++++++++++++++++++++++++++++++++
+Node        : meslin-notebook
+Process     : java <10669>
+Thread      : ddsi2 7fc06ab23700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_serviceChangeState/v_service.c/329/0/1523910735.356642702
+========================================================================================
+Report      : INFO
+Date        : Seg Abr 16 17:32:15 -03 2018
+Description : The durability service can by identified by ID: 795151284
+Node        : meslin-notebook
+Process     : java <10669>
+Thread      : durability 7fc06ae92700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/DurabilityService/d_durability.c/476/0/1523910735.562526941
+========================================================================================
+Report      : INFO
+Date        : Seg Abr 16 17:32:22 -03 2018
+Description : ++++++++++++++++++++++++++++++++++++++++++++++++
+              ++ The service 'durability' is now operational. 
+              ++++++++++++++++++++++++++++++++++++++++++++++++
+Node        : meslin-notebook
+Process     : java <10669>
+Thread      : durability 7fc06ae92700
+Internals   : V6.4.140407OSS/3b83e82/3b83e82/v_serviceChangeState/v_service.c/329/0/1523910742.570843652
