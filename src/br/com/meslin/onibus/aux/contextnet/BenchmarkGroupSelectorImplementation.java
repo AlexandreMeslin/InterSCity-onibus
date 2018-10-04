@@ -88,10 +88,11 @@ public class BenchmarkGroupSelectorImplementation implements GroupSelector, Node
 	 */
 	@Override
 	public Set<Integer> processGroups(Message nodeMessage) {
-		if(BenchmarkDefineGroup.nMessages % 1000 == 0) System.out.print("C");
+		if(BenchmarkDefineGroup.nMessages % 10000 == 0) System.out.print("C");
 		// set the start time, if not setted yet
 		if(BenchmarkDefineGroup.startTime < 0) {
 			BenchmarkDefineGroup.startTime = System.currentTimeMillis();
+			System.err.println("\n\n\n***** [" + this.getClass().getName() + "." + new Object(){}.getClass().getEnclosingMethod().getName() + "] Starting at " + BenchmarkDefineGroup.startTime);
 		}
 		// update the number of messages
 		BenchmarkDefineGroup.nMessages++;

@@ -23,10 +23,10 @@ import br.com.meslin.onibus.interscity.InterSCity;
  */
 public class BenchmarkMyCore {
 	// statistics
-	public static long startTime = -1;	// negative means that there is no start time setted yet
-	public static long stopTime;
+	public static long startTime = -1;	// negative value means that there is no start time setted yet
+	public static long stopTime;		// when last message was received
 	public static long nMessages;
-	
+
 	private static InterSCity interSCity;
 
 	/** stores a queue of bus data to be sent to the InterSCity */

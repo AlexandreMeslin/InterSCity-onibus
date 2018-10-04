@@ -15,16 +15,29 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.rmi.Naming;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.DefaultParser;
+import org.apache.commons.cli.HelpFormatter;
+import org.apache.commons.cli.Option;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import br.com.meslin.onibus.aux.MyRMIServer;
+import br.com.meslin.onibus.aux.RMIServerIntf;
 import br.com.meslin.onibus.aux.StaticLibrary;
 import br.com.meslin.onibus.aux.connection.Constants;
 import br.com.meslin.onibus.aux.contextnet.BusThread;
@@ -60,13 +73,13 @@ public class BenchmarkOnibusV2 {
 	// to control the threads
 	private Thread[] busThread;
 	// syncronization
-	private static Object canStart;		// just a sincronize object
+	private static Object canStart;				// just a sincronize object
 	private static int[] threadReturnValue;
-	private static Object syncNMessages;
+	private static String rmiServerAddress;
 
 	/** bus indexed by ORDEM<br>Map&lt;ORDEM, Bus&gt; */
 	public volatile static Map<String, Bus> buses;
-	private static int nBuses;		// number of buses, for simulation purpose
+	private static int nBuses;					// number of buses, for simulation purpose
 
 
 
@@ -75,7 +88,6 @@ public class BenchmarkOnibusV2 {
 	 */
 	public BenchmarkOnibusV2() {
 		canStart = new Object();
-		syncNMessages = new Object();
 		nMessages = 0;
 		threadReturnValue = new int[nBuses];
 		busThread = new Thread[nBuses];
@@ -93,29 +105,95 @@ public class BenchmarkOnibusV2 {
 	public static void main(String[] args) throws InterruptedException {
 		final Date buildDate = StaticLibrary.getClassBuildTime();
 		System.out.println("BenchmarkOnibusV2 builded at " + buildDate);
+		
+		// get command line options
+		Options options = new Options();
+		Option option;
 
-		// get startup parameters
-		if(args.length != 0) {
-			// parameters from command line
-			gatewayIP = args[0];
-			gatewayPort = Integer.parseInt(args[1]);
-			maxIterations = Integer.parseInt(args[2]);
-			nBuses = Integer.parseInt(args[3]);
+		option = new Option("a", "address", true, "ContextNet Gateway IP address");
+		option.setRequired(false);
+		options.addOption(option);
+
+		option = new Option("b", "bus", true, "Number of buses");
+		option.setRequired(false);
+		options.addOption(option);
+
+		option = new Option("i", "interval", true, "Interval between threads creation in milliseconds");
+		option.setRequired(false);
+		options.addOption(option);
+
+		option = new Option("n", "iteration", true, "Number of iterations");
+		option.setRequired(false);
+		options.addOption(option);
+
+		option = new Option("p", "port", true, "ContextNet Gateway IP port number");
+		option.setRequired(false);
+		options.addOption(option);
+		
+		option = new Option("m", "main", true, "Main RMI server address");
+		option.setRequired(false);
+		options.addOption(option);
+		
+		CommandLineParser parser = new DefaultParser();
+		HelpFormatter formatter = new HelpFormatter();
+		CommandLine cmd;
+		
+		try {
+			cmd = parser.parse(options, args);
+		} catch (ParseException e1) {
+			System.err.println("Date = " + new Date());
+			formatter.printHelp("BenchmarkOnibusV2", options);
+			e1.printStackTrace();
+			return;
 		}
-		else {
-			// default parameters
+		
+		if((gatewayIP = cmd.getOptionValue("address")) == null) {
 			gatewayIP = Constants.GATEWAY_IP;
+		}
+		try {
+			gatewayPort = Integer.parseInt(cmd.getOptionValue("port"));
+		} catch(Exception e) {
 			gatewayPort = Constants.GATEWAY_PORT;
+		}
+		try {
+			maxIterations = Integer.parseInt(cmd.getOptionValue("iteration"));
+		} catch(Exception e) {
 			maxIterations = MAX_ITERATIONS;
+		}
+		try {
+			nBuses = Integer.parseInt(cmd.getOptionValue("bus"));
+		} catch(Exception e) {
 			nBuses = N_BUSES;
 		}
-		
-		System.out.println("[BenchmarkOnibusV2.main] Starting sending " + maxIterations + " packets form " + nBuses + " buses");
+		try {
+			StaticLibrary.intervalBetweenThreads = Integer.parseInt(cmd.getOptionValue("interval"));
+		} catch(Exception e) {
+			// no default parameters setted here (it is setted at StaticLibrary
+		}
+		rmiServerAddress = cmd.getOptionValue("main");
+
+		System.out.println("[BenchmarkOnibusV2.main] Starting sending " + maxIterations + " packets every " + StaticLibrary.interval + " milliseconds from " + nBuses + " buses");
 
 		System.out.println("Ready, set...");
+
+		// new RMI server
+		MyRMIServer.nClients = new Integer(0);
+		if(!cmd.hasOption("m")) {
+			// binds this object instance to the name "Onibus"
+			try {
+				System.out.println("[BenchmarkOnibusV2.main] Creating RMI server");
+				new MyRMIServer(MyRMIServer.nClients);
+			} catch (RemoteException e) {
+				System.err.println("Date = " + new Date());
+				e.printStackTrace();
+			}
+		}
+
 		BenchmarkOnibusV2 bench = new BenchmarkOnibusV2();
-		bench.doAll();
 		
+		// do all
+		bench.doAll();
+
 		elapsedTime = stopTime - startTime;
 		System.err.println("\n[BenchmarkOnibus.MAIN] Stopped sending data after " + elapsedTime + " ms with " + nMessages + " sent");
 		System.out.println("\n[BenchmarkOnibus.MAIN] Stopped sending data after " + elapsedTime + " ms with " + nMessages + " sent");
@@ -127,8 +205,8 @@ public class BenchmarkOnibusV2 {
 		}
 
 		System.out.println("FINISHED!!!");
-		
-		while(true) {
+
+/*		while(true) {
 			try {
 				Thread.sleep(Long.MAX_VALUE);
 			} 
@@ -137,7 +215,7 @@ public class BenchmarkOnibusV2 {
 				e.printStackTrace();
 			}
 		}
-	}
+*/	}
 	
 	
 	/**
@@ -153,6 +231,25 @@ public class BenchmarkOnibusV2 {
 	 */
 	private void doAll() {
 		Bus bus;
+		RMIServerIntf rmiServerIntf = null;
+
+		if(BenchmarkOnibusV2.rmiServerAddress != null) {
+			try {
+				System.err.println("[" + this.getClass().getName() + "." + new Object(){}.getClass().getEnclosingMethod().getName() + "] Tring to connect to " + "rmi://" + BenchmarkOnibusV2.rmiServerAddress + ":1099/Onibus");
+				rmiServerIntf = (RMIServerIntf) Naming.lookup("rmi://" + BenchmarkOnibusV2.rmiServerAddress + ":1099/Onibus");
+				rmiServerIntf.incClients();
+			} catch (MalformedURLException | RemoteException | NotBoundException e) {
+				System.err.println("Date = " + new Date());
+				e.printStackTrace();
+				System.exit(-1);
+			}
+		}
+		else {
+			// this is the server
+			MyRMIServer.nClients++;
+			System.err.println("[" + this.getClass().getName() + "." + new Object(){}.getClass().getEnclosingMethod().getName() + "] nClients = " + MyRMIServer.nClients);
+		}
+
 		// create each bus
 		// create a thread for each bus
 		synchronized(canStart) {
@@ -167,12 +264,34 @@ public class BenchmarkOnibusV2 {
 					busThread[i] = new Thread(new BusThread(gatewayIP, gatewayPort, bus, i, maxIterations, canStart, threadReturnValue));
 					busThread[i].start();
 					try {
-						Thread.sleep(500);
+						Thread.sleep(StaticLibrary.intervalBetweenThreads);
 					} catch (InterruptedException e) {
 						System.err.println("Date = " + new Date());
 						e.printStackTrace();
 					}
 				}
+			}
+			// adds a delay corresponding to 10% of the time of the connection phase to wait for the other sets of clients (other machines) to terminate their connection phases
+			try {
+				Thread.sleep((long) (nBuses * StaticLibrary.intervalBetweenThreads * 0.10));
+			} catch (InterruptedException e) {
+				System.err.println("Date = " + new Date());
+				e.printStackTrace();
+			}
+			if(BenchmarkOnibusV2.rmiServerAddress != null) {
+				try {
+					rmiServerIntf.clientReady();
+					while(!rmiServerIntf.allReady()) {}
+				} catch (RemoteException e) {
+					System.err.println("Date = " + new Date());
+					e.printStackTrace();
+				}
+			}
+			else {
+				System.err.println("[" + this.getClass().getName() + "." + new Object(){}.getClass().getEnclosingMethod().getName() + "] nClients = " + MyRMIServer.nClients);
+				// this is the server (and also a client) and must wait for all clients be ready
+				MyRMIServer.nClients--;
+				while(MyRMIServer.nClients != 0) {}
 			}
 		}
 
@@ -219,7 +338,7 @@ public class BenchmarkOnibusV2 {
 	 * @return
 	 */
 	protected Bus getABus(String line) {
-		Map<String, Bus> buses = getAllPositions(line);
+		getAllPositions(line);
 		Bus newBus = null;
 		
 		// Get the first bus (only!)
@@ -237,7 +356,9 @@ public class BenchmarkOnibusV2 {
 	/**
 	 * Gets all bus positions from city hall<br>
 	 * gets all bus positions<br>
+	 * Fills global object buses with new buses or update their positions<br>
 	 * 
+	 * City hall data format:<br>
      *{<br>
      *	"COLUMNS":[<br>
      * 		"DATAHORA",<br>
@@ -257,30 +378,73 @@ public class BenchmarkOnibusV2 {
      *			VELOCIDADE<br>
      *		],<br>
      *		[], []<br>
-	 * @return 
 	 */
-	public Map<String, Bus> getAllPositions() {
-		return getAllPositions("");
+	public void getAllPositions() {
+		getAllPositions("");
 	}
 	/**
 	 * Gets all bus positions from city hall<br>
 	 * @see BenchmarkOnibusV2#getAllPositions()
 	 * {@link BenchmarkOnibusV2#getAllPositions()}
 	 * @param line bus line
-	 * @return 
+	 *
+	 * City hall data format:<br>
+     *{<br>
+     *	"COLUMNS":[<br>
+     * 		"DATAHORA",<br>
+     *		"ORDEM",<br>
+     *		"LINHA",<br>
+     *		"LATITUDE",<br>
+     *		"LONGITUDE",<br>
+     *		"VELOCIDADE"<br>
+  	 *	],<br>
+  	 *	"DATA":[<br>
+     *		[<br>
+     *	 		"MM-DD-YYY HH:MM:SS",<br>
+     *			"ORDEM",<br>
+     *			"LINHA",<br>
+     *			LATITUDE,<br>
+     *			LONGITUDE,<br>
+     *			VELOCIDADE<br>
+     *		],<br>
+     *		[], []<br>
 	 */
-	public Map<String, Bus> getAllPositions(int line) {
-		return getAllPositions(Integer.toString(line));
+	public void getAllPositions(int line) {
+		getAllPositions(Integer.toString(line));
 	}
 	/**
 	 * Gets all bus positions from city hall<br>
+	 * This method updates the List<Bus> buses class object.
+	 * If the bus is already registered, only its position is updated.
+	 * If the bus is new (not yet registered), a new bus entry is created<br>
+	 * On error, while connecting to the city hall website, the buses object is not updated
 	 * @see BenchmarkOnibusV2#getAllPositions()
 	 * {@link BenchmarkOnibusV2#getAllPositions()}
 	 * @param line bus route
-	 * @return 
+	 * 
+ 	 * City hall data format:<br>
+     *{<br>
+     *	"COLUMNS":[<br>
+     * 		"DATAHORA",<br>
+     *		"ORDEM",<br>
+     *		"LINHA",<br>
+     *		"LATITUDE",<br>
+     *		"LONGITUDE",<br>
+     *		"VELOCIDADE"<br>
+  	 *	],<br>
+  	 *	"DATA":[<br>
+     *		[<br>
+     *	 		"MM-DD-YYY HH:MM:SS",<br>
+     *			"ORDEM",<br>
+     *			"LINHA",<br>
+     *			LATITUDE,<br>
+     *			LONGITUDE,<br>
+     *			VELOCIDADE<br>
+     *		],<br>
+     *		[], []<br>
 	 */
 	@SuppressWarnings("deprecation")
-	public Map<String, Bus> getAllPositions(String line) {
+	public void getAllPositions(String line) {
 //		System.err.println("[" + this.getClass().getName() + "." + new Object(){}.getClass().getEnclosingMethod().getName() + "] with line = |" + line + "|");
 		URL url;
 		HttpURLConnection connection = null;
@@ -314,11 +478,11 @@ public class BenchmarkOnibusV2 {
 				System.err.println("Date = " + new Date());
 				System.err.println("***** [" + this.getClass().getName() + "." + new Object(){}.getClass().getEnclosingMethod().getName() + "] Fatal error while reading bus positions: " + e.getMessage());
 				e.printStackTrace();
+				return;
 			}
 		}
-		else
-		{
-			return null;
+		else {
+			return;
 		}
 
 		// create a JSON object based on bus data
@@ -338,7 +502,7 @@ public class BenchmarkOnibusV2 {
 						Integer.parseInt(jsonBus.getString(DATAHORA).split("[\\- :]")[3]),
 						Integer.parseInt(jsonBus.getString(DATAHORA).split("[\\- :]")[4]),
 						Integer.parseInt(jsonBus.getString(DATAHORA).split("[\\- :]")[5])
-					));
+				));
 				bus.setOrdem(jsonBus.getString(ORDEM));
 				try {
 					bus.setLinha(jsonBus.getString(LINHA));
@@ -369,9 +533,8 @@ public class BenchmarkOnibusV2 {
 			}
 //			System.err.println("[" + this.getClass().getName() + "." + new Object(){}.getClass().getEnclosingMethod().getName() + "] Total de ônibus: " + buses.size());
 		}
-		else {
+//		else {
 //			System.err.println("***** [" + this.getClass().getName() + "." + new Object(){}.getClass().getEnclosingMethod().getName() + "] Error code #" + responseCode);
-		}
-		return buses;
+//		}
 	}
 }

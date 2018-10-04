@@ -18,6 +18,7 @@ import br.com.meslin.onibus.aux.model.Region;
 
 public class StaticLibrary {
 	public static final long interval = 5000;	// in ms (interval to create a thread)
+	public static long intervalBetweenThreads = 500;
 	public static final long variance = 20;		// in % (variance to interval to create a thread)
 
 	public StaticLibrary() {

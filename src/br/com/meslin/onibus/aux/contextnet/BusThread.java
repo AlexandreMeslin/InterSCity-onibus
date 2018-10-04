@@ -27,6 +27,7 @@ public class BusThread implements Runnable, NodeConnectionListener, GroupMembers
 	private MrUdpNodeConnection connection;
 	private Bus bus;
 	private GroupCommunicationManager groupManager;
+	private long backoffTime;	// backoff time between reconnections
 
 	
 	
@@ -51,6 +52,7 @@ public class BusThread implements Runnable, NodeConnectionListener, GroupMembers
 		
 		this.threadReturnValue[id] = 0;
 		
+		this.backoffTime = 1;
 		InetSocketAddress address = new InetSocketAddress(this.gatewayIP, this.gatewayPort);
 		try {
 			this.connection = new MrUdpNodeConnection();
@@ -158,6 +160,14 @@ public class BusThread implements Runnable, NodeConnectionListener, GroupMembers
 
 	@Override
 	public void disconnected(NodeConnection remoteCon) {
+		try {
+			Thread.sleep((long) (backoffTime + Math.random() * backoffTime));
+		} catch (InterruptedException e1) {
+			System.err.println("Date = " + new Date());
+			e1.printStackTrace();
+		}
+		this.backoffTime *= 2;	// double backoff time each disconnection
+		
 		System.err.println("[" + this.getClass().getName() + "." + new Object(){}.getClass().getEnclosingMethod().getName() + "] Disconnected at " + new Date());
 		System.out.println("[" + this.getClass().getName() + "." + new Object(){}.getClass().getEnclosingMethod().getName() + "] Disconnected at " + new Date());
 		InetSocketAddress address = new InetSocketAddress(this.gatewayIP, this.gatewayPort);
