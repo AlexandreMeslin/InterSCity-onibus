@@ -10,25 +10,45 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 import lac.cnet.groupdefiner.components.GroupDefiner;
 import lac.cnet.groupdefiner.components.groupselector.GroupSelector;
+
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.DefaultParser;
+import org.apache.commons.cli.HelpFormatter;
+import org.apache.commons.cli.Option;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
+import org.apache.log4j.Logger;
+
+import br.com.meslin.onibus.aux.Debug;
 import br.com.meslin.onibus.aux.StaticLibrary;
+import br.com.meslin.onibus.aux.connection.Constants;
 import br.com.meslin.onibus.aux.connection.HTTPException;
 import br.com.meslin.onibus.aux.contextnet.BenchmarkMyGroupSelector;
 import br.com.meslin.onibus.aux.contextnet.BenchmarkMyProcessingNode;
 import br.com.meslin.onibus.aux.model.Bus;
 import br.com.meslin.onibus.interscity.InterSCity;
+import br.com.meslin.onibus.interscity.InterSCityConsumer;
 
 /**
  * @author meslin
+ * 
+ * This application creates a core environment with a Processing Node thread and
+ * It also creates a consumer to send data to a InterSCity 
  *
  */
 public class BenchmarkMyCore {
-	// statistics
-	public static long startTime = -1;	// negative value means that there is no start time setted yet
-	public static long stopTime;		// when last message was received
-	public static long nMessages;
+	/*
+	 * Configuration parameters
+	 */
+	/** InterSCity IP address */
+	private static String interSCityIPAddress;
+	/** group description file name */
+	private static String filename; 
 
+	/** An interface to InterSCity */
 	private static InterSCity interSCity;
-
+	public static Logger log = Logger.getLogger(BenchmarkMyCore.class);
 	/** stores a queue of bus data to be sent to the InterSCity */
 	public static ConcurrentLinkedQueue<Bus> busQueue = new ConcurrentLinkedQueue<Bus>(); 
 
@@ -49,84 +69,101 @@ public class BenchmarkMyCore {
 		// Build date
 		final Date buildDate = StaticLibrary.getClassBuildTime();
 		System.out.println("BenchmarMyCore builed at " + buildDate);
+		
+		// get command line options
+		Options options = new Options();
+		Option option;
+		
+		option = new Option("a", "address", true, "ContextNet Gateway IP address");
+		option.setRequired(false);
+		options.addOption(option);
 
-		// Catch Ctrl+C
+		option = new Option("f", "groupfilename", true, "Group description filename");
+		option.setRequired(true);
+		options.addOption(option);
+		
+		option = new Option("h", "force-headless", false, "Run as in a headless environment");
+		option.setRequired(false);
+		options.addOption(option);
+
+		option = new Option("i", "InterSCity", true, "InterSCity IP address");
+		option.setRequired(false);
+		options.addOption(option);
+		
+		option = new Option("p", "port", true, "ContextNet Gateway TCP port number");
+		option.setRequired(false);
+		options.addOption(option);
+
+		CommandLineParser parser = new DefaultParser();
+		HelpFormatter formatter = new HelpFormatter();
+		CommandLine cmd;
+		
+		try {
+			cmd = parser.parse(options, args);
+		} catch (ParseException e) {
+			System.err.println("Date = " +  new Date());
+			formatter.printHelp("BenchmarkMyCore", options);
+			e.printStackTrace();
+			return;
+		}
+		
+		// getting command line options
+		// ContextNet IP address
+		if((StaticLibrary.contextNetIPAddress = cmd.getOptionValue("address")) == null) {
+			StaticLibrary.contextNetIPAddress = Constants.GATEWAY_IP;
+		}
+		// group description filename
+		filename = cmd.getOptionValue("groupfilename");
+		// ContextNet TCP port number
+		try {
+			StaticLibrary.contextNetPortNumber = Integer.parseInt(cmd.getOptionValue("port"));
+		} catch(Exception e) {
+			StaticLibrary.contextNetPortNumber = Constants.GATEWAY_PORT;
+		}
+		// InterSCity IP address
+		interSCityIPAddress = cmd.getOptionValue("InterSCity");	// null if not available
+		
+		StaticLibrary.forceHeadless = cmd.hasOption("force-headless");
+		Debug.println("Running as headless: " + StaticLibrary.forceHeadless);
+
+		StaticLibrary.nMessages = 0;		// for statistics
+
+		/*
+		 * Catch Ctrl+C
+		 */
 		Runtime.getRuntime().addShutdownHook(new Thread() {
 		    public void run() {
-		    	long elapsedTime = stopTime - startTime;
+		    	long elapsedTime = StaticLibrary.stopTime - StaticLibrary.startTime;
 		    	System.err.println("CTRL+C");
-		    	System.err.println("Time: " +  elapsedTime + " (" + stopTime + " - " + startTime + ") with " + nMessages + " messages");
+		    	System.err.println("Time: " +  elapsedTime + " (" + StaticLibrary.stopTime + " - " + StaticLibrary.startTime + ") with " + StaticLibrary.nMessages + " messages");
 		    }
 		});
 
-		// Command line parameters
-		if(args.length != 3) {
-			System.err.println("Usage: BenchmarkMyCore <gateway ip address> <gateway port number> <group filename>");
-			return;
-		}
-		String contextNetIPAddress = args[0];
-		int contextNetPortNumber = Integer.parseInt(args[1]);
-		String filename = args[2];
-		System.out.println("\n\nStarting ContextNet Core using gateway at " + contextNetIPAddress + ":" + contextNetPortNumber + "\n\n");
-		
+		System.out.println("\n\nStarting ContextNet Core using gateway at " + StaticLibrary.contextNetIPAddress + ":" + StaticLibrary.contextNetPortNumber + "\n\n");
 		System.out.println("Ready, set...");
 
-		/**
+		// check and set InterSCity capabilities
+		interSCity = new InterSCity(interSCityIPAddress);
+		interSCity.checkInterSCity();
+
+		/*
 		 * Creating GroupSelector
 		 */
-		GroupSelector groupSelector = new BenchmarkMyGroupSelector(contextNetIPAddress, contextNetPortNumber, filename);
+		GroupSelector groupSelector = new BenchmarkMyGroupSelector(filename);
 		new GroupDefiner(groupSelector);
-
-		// check and set InterSCity capabilities and a fake bus
-		interSCity = new InterSCity();
-		interSCity.checkInterSCity();
-		interSCity.createABus();
 		
-		/**
-		 * Create the Processing Node thread
+		/*
+		 * Create Processing Node
 		 */
-		BenchmarkMyProcessingNode processingNode = new BenchmarkMyProcessingNode(filename, contextNetPortNumber, filename, busQueue);
+		new BenchmarkMyProcessingNode(busQueue);
 
-		/**
+		/*
 		 * Create a thread to send bus data to the InterSCity
 		 */
-		Thread consumer = new Thread(new BusQueueConsumer(interSCity, busQueue));
+		Thread consumer = new Thread(new InterSCityConsumer(interSCity, busQueue));
 		consumer.start();
 		
 		System.out.println("\nGO!");
 		while(true) {}
 	}
-}
-
-
-class BusQueueConsumer implements Runnable {
-	/** stores a queue of bus data to be sent to the InterSCity */
-	private ConcurrentLinkedQueue<Bus> busQueue = new ConcurrentLinkedQueue<Bus>();
-	private InterSCity interSCity;
-
-	public BusQueueConsumer(InterSCity interSCity, ConcurrentLinkedQueue<Bus> busQueue) {
-		this.interSCity = interSCity;
-		this.busQueue = busQueue;
-	}
-
-	@Override
-	public void run() {
-		Bus bus;
-		while(true) {
-			while(busQueue.isEmpty()) {
-				synchronized (busQueue) {
-					try {
-						busQueue.wait();
-					} catch (InterruptedException e) {
-						System.err.println("Date = " + new Date());
-						e.printStackTrace();
-					}
-				}
-			}
-			// busQueue is ConcurrentLinkedQueue thread safe linked queue, so, does NOT need to be synchronized
-			while ((bus = busQueue.poll()) != null) {
-				interSCity.updateDB(bus);
-			}
-		}
-	}	
 }

@@ -10,10 +10,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import br.com.meslin.onibus.aux.Debug;
+import br.com.meslin.onibus.aux.StaticLibrary;
 import br.com.meslin.onibus.aux.connection.HTTPConnection;
 import br.com.meslin.onibus.aux.connection.HTTPException;
 import br.com.meslin.onibus.aux.model.Bus;
-import br.com.meslin.onibus.main.BenchmarkDefineGroup;
 
 public class InterSCity {
 	private HTTPConnection connection;
@@ -31,25 +32,33 @@ public class InterSCity {
 		ordemUUIDMap = new HashMap<String, String>();
 	}
 	/**
-	 * Constructor
+	 * Constructor<br>
+	 * Creates an HTTPConnection HTTP connction object with default parameters<br>
 	 */
 	public InterSCity() {
 		this(new HTTPConnection());
 	}
-
 	
-	
+	public InterSCity(String interSCityIPAddress) {
+		this(new HTTPConnection(interSCityIPAddress));
+	}
 	/**
 	 * Update InterSCity database<br>
+	 * InterSCity commands<br>
+	 * <ul>
+	 * <li>
+	 * <li>curl -X GET  "http://localhost:8000/catalog/capabilities"
+	 * <li>curl -X POST "http://localhost:8000/adaptor/resources/" + uuid + "/data" -H "Content-Type: application/json" -d jsonobject
+	 * </ul>
 	 * @param bus
 	 */
 	public void updateDB(Bus bus) {
-		if(BenchmarkDefineGroup.nMessages % 1000 == 0) System.out.print("I");
+		if(StaticLibrary.nMessages % 1000 == 0) System.out.print("I");
 		String uuid = null;
 		JSONObject jsonObject, data;
 		//HTTPConnection connection;
 		String response = null;
-		
+
 		String ordem = bus.getOrdem();		// remember: the key is the bus ordem
 		
 		// try to find the UUID
@@ -60,7 +69,7 @@ public class InterSCity {
 			System.err.println("***** [" + this.getClass().getName() + "." + new Object(){}.getClass().getEnclosingMethod().getName() + "] Fatal error while seeking for UUID by 'ordem': " + e.getMessage());
 			return;
 		}
-		
+
 		// if UUID not found, create a new bus
 		if(uuid == null) {
 			/* ******************* uncomment this to connect to InterSCity *********************** */
@@ -114,6 +123,7 @@ public class InterSCity {
 		jsonObject = new JSONObject();
 		jsonObject.put("data", data);
 		String jsonString = jsonObject.toString().replace("[[", "[").replace("]]", "]");
+		Debug.println("Tamanho do payload ==> " + jsonString.length());
 //		System.err.println("[" + this.getClass().getName() + "." + new Object(){}.getClass().getEnclosingMethod().getName() + "] Updating values to " + jsonObject.toString(2));
 
 //		System.err.print("<");
@@ -220,6 +230,11 @@ public class InterSCity {
 	
 	/**
 	 * Get bus UUID by ordem (bus serial number)<br>
+	 * Uses ordemUUIDMap object as a UUID vs ORDEM cache to avoid extra InterSCity commands<br>
+	 * InterSCity commands:<br>
+	 * <ul>
+ 	 * <li>curl -X GET  "http://localhost:8000/discovery/resources?capability=bus_monitoring&ordem.eq=" + ordem
+	 * <ul>
 	 * <br>
 	 * Answer<br><pre>
 	 *	{<br>
@@ -277,7 +292,7 @@ public class InterSCity {
 	 *	}
 	 *<br></pre>
 	 * @param ordem (bus serial number)
-	 * @return UUID String
+	 * @return UUID String or null if not found
 	 * @throws IOException 
 	 */
 	private String getUUID(String ordem) throws IOException {
@@ -289,7 +304,6 @@ public class InterSCity {
 		}
 		System.out.print("X");
 
-		//HTTPConnection connection = new HTTPConnection();
 		try {
 			response = connection.sendGet("discovery/resources" ,"capability=bus_monitoring&ordem.eq=" + ordem);
 			try {
@@ -325,6 +339,11 @@ public class InterSCity {
 	 * <li>Availability
 	 * <li>Existence of the required capabilities (creates if not available)
 	 * </ul>
+	 * InterSCity commands:
+	 * <ul>
+	 * <li>curl -X GET  "http://localhost:8000/catalog/capabilities"
+	 * <li>curl -X POST "http://localhost:8000/catalog/capabilities" -H "Content-Type: application/json" -d '{"name": "bus_monitoring", "description": "Bus monitoring", "capability_type": "sensor"}'
+	 * </ul>
 	 * @throws HTTPException 
 	 * @throws IOException 
 	 * @throws MalformedURLException 
@@ -339,6 +358,9 @@ public class InterSCity {
 		// check for the existence of the bus_monitoring capability
 		//connection = new HTTPConnection();
 		response = connection.sendGet("catalog/capabilities", "");
+		
+		if(response == null) return;
+		
 		JSONArray capabilities = new JSONObject(response).getJSONArray("capabilities");
 		found = false;
 		for(int i=0; i<capabilities.length(); i++) {

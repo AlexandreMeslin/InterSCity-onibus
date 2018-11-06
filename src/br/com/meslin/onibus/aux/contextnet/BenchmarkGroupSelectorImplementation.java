@@ -11,7 +11,6 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.UUID;
 
 import lac.cnclib.net.NodeConnection;
 import lac.cnclib.net.NodeConnectionListener;
@@ -31,8 +30,8 @@ public class BenchmarkGroupSelectorImplementation implements GroupSelector, Node
 	private GeographicMap map;
 	private List<Region> regionList;
 	private List<Bus> busList;
-	private String contextNetIPAddress;
-	private int contextNetPortNumber;
+//	private String contextNetIPAddress;
+//	private int contextNetPortNumber;
 	
 	/**
 	 * <p>Builds regions based on region description files</p>
@@ -48,8 +47,8 @@ public class BenchmarkGroupSelectorImplementation implements GroupSelector, Node
 	 */
 	public BenchmarkGroupSelectorImplementation(String contextNetIPAddress, int contextNetPortNumber, String name) throws MalformedURLException, IOException, HTTPException
 	{
-		this.contextNetIPAddress = contextNetIPAddress;
-		this.contextNetPortNumber = contextNetPortNumber;
+//		this.contextNetIPAddress = contextNetIPAddress;
+//		this.contextNetPortNumber = contextNetPortNumber;
 		List<String> filenames = StaticLibrary.readFilenamesFile(name);
 		
 		// reads each region file
@@ -88,14 +87,14 @@ public class BenchmarkGroupSelectorImplementation implements GroupSelector, Node
 	 */
 	@Override
 	public Set<Integer> processGroups(Message nodeMessage) {
-		if(BenchmarkDefineGroup.nMessages % 10000 == 0) System.out.print("C");
+		if(StaticLibrary.nMessages % 10000 == 0) System.out.print("C");
 		// set the start time, if not setted yet
-		if(BenchmarkDefineGroup.startTime < 0) {
-			BenchmarkDefineGroup.startTime = System.currentTimeMillis();
-			System.err.println("\n\n\n***** [" + this.getClass().getName() + "." + new Object(){}.getClass().getEnclosingMethod().getName() + "] Starting at " + BenchmarkDefineGroup.startTime);
+		if(StaticLibrary.startTime < 0) {
+			StaticLibrary.startTime = System.currentTimeMillis();
+			System.err.println("\n\n\n***** [" + this.getClass().getName() + "." + new Object(){}.getClass().getEnclosingMethod().getName() + "] Starting at " + StaticLibrary.startTime);
 		}
 		// update the number of messages
-		BenchmarkDefineGroup.nMessages++;
+		StaticLibrary.nMessages++;
 		
 		// gets bus position
 		Bus bus = null;
@@ -116,7 +115,7 @@ public class BenchmarkGroupSelectorImplementation implements GroupSelector, Node
 		}
 		
 		HashSet<Integer> groups = new HashSet<Integer>(2, 1);
-		UUID uuid = nodeMessage.getSenderId();
+//		UUID uuid = nodeMessage.getSenderId();
 		// procura as regiões onde o ônibus pode estar
 		for(Region region : regionList)
 		{
@@ -153,7 +152,7 @@ public class BenchmarkGroupSelectorImplementation implements GroupSelector, Node
 			}
 		}
 
-		BenchmarkDefineGroup.stopTime = System.currentTimeMillis();
+		StaticLibrary.stopTime = System.currentTimeMillis();
 		return groups;
 	}
 

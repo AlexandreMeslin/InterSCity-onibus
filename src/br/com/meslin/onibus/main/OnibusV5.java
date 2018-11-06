@@ -303,6 +303,7 @@ public class OnibusV5 {
 	 * Update InterSCity data base thru ContextNet<br>
 	 * @param buses 
 	 */
+	@SuppressWarnings("unused")
 	private void updateDB(Map<String, Bus> buses) {
 		System.err.println("[" + this.getClass().getName() + "." + new Object(){}.getClass().getEnclosingMethod().getName() + "] " + buses.size() + " buses located.");
 		// for each bus...

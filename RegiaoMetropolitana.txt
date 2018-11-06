@@ -1,1 +1,1 @@
-../Lugar2.coordenadas
+../Lugar2.coord

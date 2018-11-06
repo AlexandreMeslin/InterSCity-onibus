@@ -8,8 +8,11 @@ import java.rmi.server.UnicastRemoteObject;
 
 @SuppressWarnings("serial")
 public class MyRMIServer extends UnicastRemoteObject implements RMIServerIntf {
-	public volatile static Integer nClients;		// number of client process (not number of client threads)
+	/** number of client process (not number of client threads, as a process may contain some threads) */
+	public volatile static Integer nClients;
 
+	
+	
 	public MyRMIServer(Integer nClients) throws RemoteException {
 		MyRMIServer.nClients = nClients;
 
@@ -23,6 +26,9 @@ public class MyRMIServer extends UnicastRemoteObject implements RMIServerIntf {
             System.out.println("java RMI registry already exists.");
 		}
 	}
+	
+	
+	
 	@Override
 	public int incClients() throws RemoteException {
 		synchronized (this) {

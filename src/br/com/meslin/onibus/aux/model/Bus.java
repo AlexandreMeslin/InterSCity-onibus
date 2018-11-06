@@ -6,7 +6,7 @@ import java.util.HashSet;
 import java.util.Map.Entry;
 import java.util.UUID;
 
-public class Bus implements Serializable {
+public class Bus implements Serializable, MobileObject {
 	/**
 	 * 
 	 */
@@ -23,7 +23,7 @@ public class Bus implements Serializable {
 	
 	
 	/**
-	 * Constructor
+	 * Constructor<br>
 	 */
 	public Bus() {
 		this.groups = new HashSet<Integer>();
@@ -36,7 +36,7 @@ public class Bus implements Serializable {
 		this.uuid = null;
 	}
 	/**
-	 * Constructor
+	 * Constructor<br>
 	 * @param data
 	 * @param ordem
 	 * @param linha

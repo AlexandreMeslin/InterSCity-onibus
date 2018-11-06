@@ -5,6 +5,7 @@ import java.net.InetSocketAddress;
 import java.net.SocketAddress;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import lac.cnclib.net.NodeConnection;
 import lac.cnclib.net.NodeConnectionListener;
@@ -14,21 +15,22 @@ import lac.cnclib.net.groups.GroupMembershipListener;
 import lac.cnclib.net.mrudp.MrUdpNodeConnection;
 import lac.cnclib.sddl.message.ApplicationMessage;
 import lac.cnclib.sddl.message.Message;
+import br.com.meslin.onibus.aux.Debug;
 import br.com.meslin.onibus.aux.StaticLibrary;
 import br.com.meslin.onibus.aux.model.Bus;
 
-public class BusThread implements Runnable, NodeConnectionListener, GroupMembershipListener{
+public class BusThread implements Runnable, NodeConnectionListener, GroupMembershipListener {
 	private int id;		// just a sequencial to index the onibus vectors (bus thread vector vs bus return value vector) 
 	private long maxIterations; 
 	private Object canStart;		// just a sincronize object
-	private int[] threadReturnValue;
+	private Map<String, Integer> threadReturnValue;
 	private String gatewayIP;
 	private int gatewayPort;
 	private MrUdpNodeConnection connection;
 	private Bus bus;
 	private GroupCommunicationManager groupManager;
-	private long backoffTime;	// backoff time between reconnections
-
+	private long backoffTime;		// backoff time between reconnections
+	private volatile static Long lastConnectionTime = new Long(0);
 	
 	
 	/**
@@ -41,7 +43,7 @@ public class BusThread implements Runnable, NodeConnectionListener, GroupMembers
 	 * @param canStart
 	 * @param threadReturnValue
 	 */
-	public BusThread(String gatewayIP, int gatewayPort, Bus bus, int id, long maxIterations, Object canStart, int[] threadReturnValue) {
+	public BusThread(String gatewayIP, int gatewayPort, Bus bus, int id, long maxIterations, Object canStart, Map<String, Integer> threadReturnValue) {
 		this.gatewayIP = gatewayIP;
 		this.gatewayPort = gatewayPort;
 		this.bus = bus;
@@ -50,7 +52,7 @@ public class BusThread implements Runnable, NodeConnectionListener, GroupMembers
 		this.canStart = canStart;
 		this.threadReturnValue = threadReturnValue;
 		
-		this.threadReturnValue[id] = 0;
+		this.threadReturnValue.put(bus.getOrdem(), 0);
 		
 		this.backoffTime = 1;
 		InetSocketAddress address = new InetSocketAddress(this.gatewayIP, this.gatewayPort);
@@ -67,13 +69,57 @@ public class BusThread implements Runnable, NodeConnectionListener, GroupMembers
 	
 	
 	/**
+	 * BusThread constructor<br>
+	 * @param gatewayIP
+	 * @param gatewayPort
+	 * @param bus
+	 * @param threadReturnValue
+	 */
+	public BusThread(String gatewayIP, int gatewayPort, Bus bus, Map<String, Integer> threadReturnValue) {
+		this.gatewayIP = gatewayIP;
+		this.gatewayPort = gatewayPort;
+		this.bus = bus;
+		this.maxIterations = 0;
+		this.threadReturnValue = threadReturnValue;
+		this.threadReturnValue.put(bus.getOrdem(), 0);
+		this.backoffTime = 1;
+	}
+
+
+
+	/**
 	 * (non-Javadoc)
 	 * @see java.lang.Thread#run()
 	 */
 	@Override
 	public void run() {
-		synchronized (canStart) {}		// wait all threads to be ready to go
-
+		double lastLat = 0;
+		double lastLon = 0;
+		/*
+		 * canStart is null when there is no need for thread synchronization during conetion fase.
+		 * The only requirement is to not make a connection in less than intervalBetweenThreads milliseconds.
+		 * The variable lastConnectionTime stores when the last connection occured.
+		 * Ohterwise, must wait for canStart synchronization to begin to send data.
+		 */
+		if(canStart == null) {
+			synchronized (threadReturnValue) {	// instead of threadReturnValue, it should be lastConnectionTime, but it does not work with this last option
+				while(lastConnectionTime + StaticLibrary.intervalBetweenThreads > (new Date()).getTime()) {}
+				lastConnectionTime = (new Date()).getTime();
+			}
+			InetSocketAddress address = new InetSocketAddress(this.gatewayIP, this.gatewayPort);
+			try {
+				this.connection = new MrUdpNodeConnection();
+				this.connection.addNodeConnectionListener(this);
+				this.connection.connect(address);
+			} catch (IOException e) {
+				System.err.println("Date = " + new Date());
+				e.printStackTrace();
+			}
+		}
+		else {
+			synchronized (canStart) {}		// wait all threads to be ready to go
+		}
+		
 		// wait a while to begin to send packets
 		try {
 			Thread.sleep(StaticLibrary.interval);
@@ -81,22 +127,30 @@ public class BusThread implements Runnable, NodeConnectionListener, GroupMembers
 			System.err.println("Date = " + new Date());
 			e1.printStackTrace();
 		}
-
-		for(long i=0; i<maxIterations; i++) {
-			if(threadReturnValue[id]%100==0) System.out.print(".");
-			if(!sendBusToContextNet()) {
-				System.err.println("\n[" + this.getClass().getName() + "." + new Object(){}.getClass().getEnclosingMethod().getName() + "] Thread #" + id + " could not update database");
-				threadReturnValue[id] = -1;	// error type: DB update error
-				break;
+		
+		for(long i=0; (maxIterations!=0 && i<maxIterations) || (maxIterations==0 && !Thread.interrupted()); i++) {
+			
+			// will send a new position only if its a NEW position (will not send the same position twice
+			if(lastLat != bus.getLatitude() && lastLon != bus.getLongitude()) {
+				if(threadReturnValue.get(bus.getOrdem())%100==0) System.out.print(".");
+				lastLat = bus.getLatitude();
+				lastLon = bus.getLongitude();
+				if(!sendBusToContextNet()) {
+					System.err.println("\n[" + this.getClass().getName() + "." + new Object(){}.getClass().getEnclosingMethod().getName() + "] Thread #" + id + " could not update database");
+					threadReturnValue.put(bus.getOrdem(),  -1);	// error type: DB update error
+					break;
+				}
 			}
-			threadReturnValue[id]++;
+			threadReturnValue.put(bus.getOrdem(), threadReturnValue.get(bus.getOrdem()) +1);
 			try {
-				Thread.sleep((long) (StaticLibrary.interval - StaticLibrary.interval / StaticLibrary.variance + 2 * (Math.random() * StaticLibrary.interval)/StaticLibrary.variance));
+				Thread.sleep(2000);
+//				Thread.sleep((long) (StaticLibrary.interval - StaticLibrary.interval / StaticLibrary.variance + 2 * (Math.random() * StaticLibrary.interval)/StaticLibrary.variance));
 			} catch (InterruptedException e) {
 				System.err.println("Date = " + new Date());
 				e.printStackTrace();
 			}
 		}
+		Debug.println("Thread " + bus.getOrdem() + " finished");
 	}
 
 	
@@ -111,6 +165,7 @@ public class BusThread implements Runnable, NodeConnectionListener, GroupMembers
 		// sends coordinates to the selector
 		try {
 			ApplicationMessage message = new ApplicationMessage();
+			if(this.bus.getLinha().equals("117") && this.bus.getOrdem().equals("A72005")) Debug.println("This bus " + this.bus + " at " + System.currentTimeMillis());
 			message.setContentObject(this.bus);
 			this.connection.sendMessage(message);
 		}

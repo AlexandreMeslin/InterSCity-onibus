@@ -9,21 +9,81 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 import java.util.jar.JarFile;
 import java.util.zip.ZipEntry;
+
+import lac.cnclib.net.groups.GroupCommunicationManager;
 
 import org.openstreetmap.gui.jmapviewer.Coordinate;
 
 import br.com.meslin.onibus.aux.model.Region;
 
 public class StaticLibrary {
-	public static final long interval = 5000;	// in ms (interval to create a thread)
-	public static long intervalBetweenThreads = 500;
-	public static final long variance = 20;		// in % (variance to interval to create a thread)
+	/*
+	 * constants
+	 */
+	public static final int DATAHORA = 0;
+	public static final int ORDEM = 1;
+	public static final int LINHA = 2;
+	public static final int LATITUDE = 3;
+	public static final int LONGITUDE = 4;
+	public static final int VELOCIDADE = 5;
 
+	public static final String USER_AGENT = "Mozilla/5.0";
+
+	
+	/*
+	 * global command line configuration
+	 */
+	/** run as in a headless environment */
+	public static boolean forceHeadless = false; 
+	/** ContextNet IP address */
+	public static String contextNetIPAddress;
+	/** ContextNet TCP port number */
+	public static int contextNetPortNumber;
+	
+	
+	
+	/** interval in ms (interval to create a thread */
+	public static final long interval = 5000;
+	public static long intervalBetweenThreads = 500;
+	/** in % (interval variance to create a thread) */
+	public static final long variance = 20;		// 
+
+	
+	
+	/*
+	 * statistics
+	 */
+	public static long nMessages = 0;
+	/** start time - negative value means that there is no start time setted yet */
+	public static long startTime = -1;
+	/** stop time */
+	public static long stopTime;
+	
+	
+	
+	/*
+	 * Global data
+	 */
+	/** Local UUID */
+	public static UUID uuidLocal;
+	/** número da mensagem */
+	public static long sequencial;
+	/** passenger group type */
+	public static final int PASSENGER_GROUP = 0;
+	public static GroupCommunicationManager groupManager;
+
+
+	
+	
 	public StaticLibrary() {
-		// TODO Auto-generated constructor stub
+		nMessages = 0;
+		startTime = -1;
 	}
+	
+	
 
 	/**
 	 * Handles files, jar entries, and deployed jar entries in a zip file (EAR).
@@ -103,6 +163,9 @@ public class StaticLibrary {
 		}
 		return filenames;
 	}
+	
+	
+	
 	/**
 	 * Reads a region from a given file<br>
 	 * @param filename	name of the file describing a region
@@ -147,5 +210,46 @@ public class StaticLibrary {
 			}
 		}
 		return region;
+	}
+
+	
+	
+	/**
+	 * Reads and returns a text file
+	 * @param filename
+	 * @return text file content
+	 */
+	public static String readFile(String filename) {
+		Debug.println("Reading file " + filename);
+		
+		// read the file composed by a filename per line
+		BufferedReader br = null;
+		String buffer = "";
+		
+		try
+		{
+			br = new BufferedReader(new FileReader(filename));
+			String line;
+			while((line = br.readLine()) != null) {
+				buffer += line.trim();
+			}
+		}
+		catch (IOException e)
+		{
+			System.err.println("Date = " + new Date());
+			e.printStackTrace();
+		}
+		finally {
+			if(br != null) {
+				try {
+					br.close();
+				}
+				catch (IOException e) {
+					System.err.println("Date = " + new Date());
+					e.printStackTrace();
+				}
+			}
+		}
+		return buffer;
 	}
 }

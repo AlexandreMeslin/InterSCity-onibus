@@ -68,7 +68,7 @@ public class Region
 		return result;
 	}
 
-	public boolean contains(Bus coordinates)
+	public boolean contains(MobileObject coordinates)
 	{
 		return contains(new Coordinate(coordinates.getLatitude(), coordinates.getLongitude()));
 	}

@@ -51,13 +51,6 @@ public class BenchmarkOnibusV2 {
 	// constants
 	private static final int N_BUSES = 100;
 	private static final int MAX_ITERATIONS = 100;
-	private static final String USER_AGENT = "Mozilla/5.0";
-	private static final int DATAHORA = 0;
-	private static final int ORDEM = 1;
-	private static final int LINHA = 2;
-	private static final int LATITUDE = 3;
-	private static final int LONGITUDE = 4;
-	private static final int VELOCIDADE = 5;
 	
 	// properties
 	private static String gatewayIP;
@@ -74,7 +67,7 @@ public class BenchmarkOnibusV2 {
 	private Thread[] busThread;
 	// syncronization
 	private static Object canStart;				// just a sincronize object
-	private static int[] threadReturnValue;
+	private static Map<String, Integer> threadReturnValue;
 	private static String rmiServerAddress;
 
 	/** bus indexed by ORDEM<br>Map&lt;ORDEM, Bus&gt; */
@@ -89,7 +82,7 @@ public class BenchmarkOnibusV2 {
 	public BenchmarkOnibusV2() {
 		canStart = new Object();
 		nMessages = 0;
-		threadReturnValue = new int[nBuses];
+		threadReturnValue = new HashMap<String, Integer>();
 		busThread = new Thread[nBuses];
 		
 		buses = new HashMap<String, Bus>();
@@ -198,24 +191,14 @@ public class BenchmarkOnibusV2 {
 		System.err.println("\n[BenchmarkOnibus.MAIN] Stopped sending data after " + elapsedTime + " ms with " + nMessages + " sent");
 		System.out.println("\n[BenchmarkOnibus.MAIN] Stopped sending data after " + elapsedTime + " ms with " + nMessages + " sent");
 
-		for(int i=0; i<nBuses; i++) {
-			if(threadReturnValue[i] < 0) {
-				System.err.println("Thread #" + i + " returned status " + threadReturnValue[i]);
+		for(Map.Entry<String, Integer> entry : threadReturnValue.entrySet()) {
+			if(entry.getValue() < 0) {
+				System.err.println("Thread #" + entry.getKey() + " returned status " + entry.getValue());
 			}
 		}
 
 		System.out.println("FINISHED!!!");
-
-/*		while(true) {
-			try {
-				Thread.sleep(Long.MAX_VALUE);
-			} 
-			catch (InterruptedException e) {
-				System.err.println("Date = " + new Date());
-				e.printStackTrace();
-			}
-		}
-*/	}
+	}
 	
 	
 	/**
@@ -233,7 +216,9 @@ public class BenchmarkOnibusV2 {
 		Bus bus;
 		RMIServerIntf rmiServerIntf = null;
 
+		// creates or connects to a RMI server
 		if(BenchmarkOnibusV2.rmiServerAddress != null) {
+			// this instance is the client
 			try {
 				System.err.println("[" + this.getClass().getName() + "." + new Object(){}.getClass().getEnclosingMethod().getName() + "] Tring to connect to " + "rmi://" + BenchmarkOnibusV2.rmiServerAddress + ":1099/Onibus");
 				rmiServerIntf = (RMIServerIntf) Naming.lookup("rmi://" + BenchmarkOnibusV2.rmiServerAddress + ":1099/Onibus");
@@ -245,7 +230,7 @@ public class BenchmarkOnibusV2 {
 			}
 		}
 		else {
-			// this is the server
+			// this instance is the server
 			MyRMIServer.nClients++;
 			System.err.println("[" + this.getClass().getName() + "." + new Object(){}.getClass().getEnclosingMethod().getName() + "] nClients = " + MyRMIServer.nClients);
 		}
@@ -303,14 +288,17 @@ public class BenchmarkOnibusV2 {
 		for(int i=0; i<nBuses; i++) {
 			try {
 				busThread[i].join();
-				if(threadReturnValue[i]>0) {
-					nMessages += threadReturnValue[i];
-				}
 			} catch (InterruptedException e) {
 				System.err.println("Date = " + new Date());
 				e.printStackTrace();
 			}
 		}
+		for(Map.Entry<String, Integer> entry : threadReturnValue.entrySet()) {
+			if(entry.getValue() > 0) {
+				nMessages += entry.getValue();
+			}
+		}
+
 		stopTime = System.currentTimeMillis();
 	}
 
@@ -456,7 +444,7 @@ public class BenchmarkOnibusV2 {
 			url = new URL("http://dadosabertos.rio.rj.gov.br/apiTransporte/apresentacao/rest/index.cfm/obterTodasPosicoes");
 			connection = (HttpURLConnection) url.openConnection();
 			connection.setRequestMethod("GET");
-			connection.setRequestProperty("User-Agent", USER_AGENT);
+			connection.setRequestProperty("User-Agent", StaticLibrary.USER_AGENT);
 			responseCode = connection.getResponseCode();
 		} catch (IOException e) {
 			System.err.println("Date = " + new Date());
@@ -496,22 +484,22 @@ public class BenchmarkOnibusV2 {
 				JSONArray jsonBus = jsonData.getJSONArray(i);
 				Bus bus = new Bus();
 				bus.setData(new Date(
-						Integer.parseInt(jsonBus.getString(DATAHORA).split("[\\- :]")[2]),
-						Integer.parseInt(jsonBus.getString(DATAHORA).split("[\\- :]")[0]),
-						Integer.parseInt(jsonBus.getString(DATAHORA).split("[\\- :]")[1]),
-						Integer.parseInt(jsonBus.getString(DATAHORA).split("[\\- :]")[3]),
-						Integer.parseInt(jsonBus.getString(DATAHORA).split("[\\- :]")[4]),
-						Integer.parseInt(jsonBus.getString(DATAHORA).split("[\\- :]")[5])
+						Integer.parseInt(jsonBus.getString(StaticLibrary.DATAHORA).split("[\\- :]")[2]),
+						Integer.parseInt(jsonBus.getString(StaticLibrary.DATAHORA).split("[\\- :]")[0]),
+						Integer.parseInt(jsonBus.getString(StaticLibrary.DATAHORA).split("[\\- :]")[1]),
+						Integer.parseInt(jsonBus.getString(StaticLibrary.DATAHORA).split("[\\- :]")[3]),
+						Integer.parseInt(jsonBus.getString(StaticLibrary.DATAHORA).split("[\\- :]")[4]),
+						Integer.parseInt(jsonBus.getString(StaticLibrary.DATAHORA).split("[\\- :]")[5])
 				));
-				bus.setOrdem(jsonBus.getString(ORDEM));
+				bus.setOrdem(jsonBus.getString(StaticLibrary.ORDEM));
 				try {
-					bus.setLinha(jsonBus.getString(LINHA));
+					bus.setLinha(jsonBus.getString(StaticLibrary.LINHA));
 				} catch (JSONException e) {
-					bus.setLinha(jsonBus.getInt(LINHA));
+					bus.setLinha(jsonBus.getInt(StaticLibrary.LINHA));
 				}
-				bus.setLatitude(jsonBus.getDouble(LATITUDE));
-				bus.setLongitude(jsonBus.getDouble(LONGITUDE));
-				bus.setVelocidade(jsonBus.getDouble(VELOCIDADE));
+				bus.setLatitude(jsonBus.getDouble(StaticLibrary.LATITUDE));
+				bus.setLongitude(jsonBus.getDouble(StaticLibrary.LONGITUDE));
+				bus.setVelocidade(jsonBus.getDouble(StaticLibrary.VELOCIDADE));
 				
 				// Filter buses based on bus line
 				if(bus.getLinha().contains(line)) {
@@ -526,7 +514,7 @@ public class BenchmarkOnibusV2 {
 					}
 					// otherwise, creates a new entry without group information
 					else {
-						buses.put(jsonBus.getString(ORDEM), bus);
+						buses.put(jsonBus.getString(StaticLibrary.ORDEM), bus);
 					}
 //					System.err.println("[" + this.getClass().getName() + "." + new Object(){}.getClass().getEnclosingMethod().getName() + "] Selecionado: " + bus);
 				}

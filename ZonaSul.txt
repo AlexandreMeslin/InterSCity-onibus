@@ -1,1 +1,1 @@
-../Bairros/ZonaSul.txt
+../Bairros/ZonaSul.coord

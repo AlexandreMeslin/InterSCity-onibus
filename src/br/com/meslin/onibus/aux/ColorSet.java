@@ -29,6 +29,7 @@ public class ColorSet {
 			new Color(128, 128,   0, TRANSPARENCY),
 			new Color(128, 128, 128, TRANSPARENCY)
 	};
+	
 	public static Color getColor(int number) {
 		return color[number % color.length];
 	}

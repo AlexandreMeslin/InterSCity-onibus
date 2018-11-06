@@ -2,7 +2,7 @@ package br.com.meslin.onibus.aux.connection;
 
 public class Constants {
 	// constants
-	// ContextNet addresses
+	/** ContextNet addresses */
 //	public static final String GATEWAY_IP = "127.0.0.1";
 //	public static final String GATEWAY_IP = "172.16.0.202";
 	public static final String GATEWAY_IP = "scp.inf.puc-rio.br";
@@ -16,7 +16,7 @@ public class Constants {
 		5502					// group 2
 	};
 
-	// InterSCity addresses
+	/** InterSCity addresses */
 	public static final String INTERSCITY_URL = "http://localhost:8000";
 //	public static final String INTERSCITY_URL = "http://172.16.0.201:8000";
 //	public static final String INTERSCITY_URL = "http://scp.inf.puc-rio.br:8000";

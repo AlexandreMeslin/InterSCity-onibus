@@ -3,45 +3,46 @@
  */
 package br.com.meslin.onibus.aux.contextnet;
 
-import java.awt.GraphicsEnvironment;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.concurrent.ConcurrentLinkedQueue;
+
+import org.json.JSONObject;
 
 import lac.cnet.sddl.objects.ApplicationObject;
 import lac.cnet.sddl.objects.Message;
+import lac.cnet.sddl.objects.PrivateMessage;
+import lac.cnet.sddl.udi.core.SddlLayer;
+import lac.cnet.sddl.udi.core.UniversalDDSLayerFactory;
 import lac.cnet.sddl.udi.core.listener.UDIDataReaderListener;
-import br.com.meslin.onibus.aux.GeographicMap;
+import br.com.meslin.onibus.aux.Debug;
 import br.com.meslin.onibus.aux.StaticLibrary;
 import br.com.meslin.onibus.aux.model.Bus;
-import br.com.meslin.onibus.aux.model.Region;
-import br.com.meslin.onibus.aux.model.SamplePredicate;
+import br.com.meslin.onibus.aux.model.Passenger;
+import br.com.meslin.onibus.main.BenchmarkDefineGroup;
 
 /**
  * @author meslin
- *
  */
 public class BenchmarkMyProcessingNode implements UDIDataReaderListener<ApplicationObject> {
-	private GeographicMap map;
-	private List<Region> regionList;
-	private List<Bus> busList;
-	private String contextNetIPAddress;
-	private int contextNetPortNumber;
+//	private GeographicMap map;
+//	private List<Region> regionList;
+//	private List<Bus> busList;
+//	private String contextNetIPAddress;
+//	private int contextNetPortNumber;
 	private ConcurrentLinkedQueue<Bus> busQueue;
+	private SddlLayer processingNode;
 	/**
 	 * Constructor
 	 * @param busQueue
 	 */
-	public BenchmarkMyProcessingNode(String contextNetIPAddress, int contextNetPortNumber, String name, ConcurrentLinkedQueue<Bus> busQueue) {
-		this.contextNetIPAddress = contextNetIPAddress;
-		this.contextNetPortNumber = contextNetPortNumber;
+	public BenchmarkMyProcessingNode(ConcurrentLinkedQueue<Bus> busQueue) {
+		this.busQueue = busQueue;
 
 		// checks if there is an graphic environment available (true if not, otherwise, false)
-		if(!GraphicsEnvironment.isHeadless()) {
+/*		if(!GraphicsEnvironment.isHeadless() && !StaticLibrary.forceHeadless) {
 			List<String> filenames = StaticLibrary.readFilenamesFile(name);
 			// reads each region file
 			this.regionList = new ArrayList<Region>();	// region list
@@ -54,36 +55,69 @@ public class BenchmarkMyProcessingNode implements UDIDataReaderListener<Applicat
 			this.map = new GeographicMap(regionList);
 			this.map.setVisible(true);
 		}
-
 		this.busList = new ArrayList<Bus>();	// the bus list starts empty
+*/
+		
+		this.processingNode = UniversalDDSLayerFactory.getInstance();
+		this.processingNode.createParticipant(UniversalDDSLayerFactory.CNET_DOMAIN);
+		
+		this.processingNode.createPublisher();
+		this.processingNode.createSubscriber();
+		
+		Object receiveMessageTopic = this.processingNode.createTopic(Message.class, Message.class.getSimpleName());
+		this.processingNode.createDataReader(this, receiveMessageTopic);
+		
+		Object toMobileNodeTopic = this.processingNode.createTopic(PrivateMessage.class, PrivateMessage.class.getSimpleName());
+		this.processingNode.createDataWriter(toMobileNodeTopic);
 	}
 
 	@Override
 	public void onNewData(ApplicationObject nodeMessage) {
-		// gets bus position
 		Bus bus = null;
+		// TODO remover esse suppresswarnings
+		@SuppressWarnings("unused")
+		Passenger passenger = null;
+		Object mobileObject = null;
+
 		try {
-			bus = (Bus) new ObjectInputStream(new ByteArrayInputStream(((Message)nodeMessage).getContent())).readObject();
-		}
-		catch (IOException | ClassNotFoundException e) {
-			System.err.println("Date = " + new Date());
-			e.printStackTrace();
-		}
-
-		// updates bus position on the map
-		this.busList.removeIf(new SamplePredicate(bus.getOrdem()));
-		this.busList.add(bus);
-		if(!GraphicsEnvironment.isHeadless()) {
-			this.map.remove(bus);
-			this.map.addBus(bus);
-		}
-
-		if(bus.getGroups().size() > 0) {
-			// TODO remover o comentário para transmitir dados para o InterSCity
-//			BenchmarkDefineGroup.busQueue.add(bus);
-			synchronized(busQueue) {
-				this.busQueue.notify();
+			// try to receive a Bus or a PassengerAtBusStop
+			mobileObject = new ObjectInputStream(new ByteArrayInputStream(((Message)nodeMessage).getContent())).readObject();
+		} catch (ClassNotFoundException | IOException e1) {
+			try {
+				// if a nodeMessage cames from M-Hub, its is a JSON string coded as byte[]
+				mobileObject = new Passenger(new JSONObject(new String(((Message)nodeMessage).getContent())));
+			} catch (Exception e) {
+				System.err.println("Date = " + new Date());
+				e.printStackTrace();
 			}
+		}
+
+		if(mobileObject instanceof Bus) {
+			if(StaticLibrary.startTime < 0) {
+				StaticLibrary.startTime = System.currentTimeMillis();
+				Debug.println("Starting at " + StaticLibrary.startTime);
+			}
+			StaticLibrary.nMessages++;
+
+			bus = (Bus) mobileObject;
+			if(bus.getGroups().size() > 0) {
+				// TODO remover o comentário para transmitir dados para o InterSCity
+				BenchmarkDefineGroup.busQueue.add(bus);
+				synchronized(busQueue) {
+					this.busQueue.notify();
+				}
+			}			
+			// updates bus position on the map
+			/*		this.busList.removeIf(new SamplePredicate(bus.getOrdem()));
+					this.busList.add(bus);
+					if(!GraphicsEnvironment.isHeadless() && !StaticLibrary.forceHeadless) {
+						this.map.remove(bus);
+						// TODO: remove next line comment and comment the other addBus command
+						this.map.addBus(bus);
+						//this.map.addBus("", new Coordinate(bus.getLatitude(), bus.getLongitude()));
+					}
+			*/
+					StaticLibrary.stopTime = System.currentTimeMillis();
 		}
 	}
 }

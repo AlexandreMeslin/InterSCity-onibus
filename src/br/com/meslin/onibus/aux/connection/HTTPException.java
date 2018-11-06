@@ -12,13 +12,14 @@ public class HTTPException extends Exception {
 	private int httpResponseCode;
 
 	/**
-	 * 
+	 * Constructor
 	 */
 	public HTTPException() {
 		this.httpResponseCode = -1;
 	}
 
 	/**
+	 * Constructor
 	 * @param message
 	 */
 	public HTTPException(String message) {
@@ -27,6 +28,7 @@ public class HTTPException extends Exception {
 	}
 
 	/**
+	 * Constructor
 	 * @param cause
 	 */
 	public HTTPException(Throwable cause) {
@@ -35,6 +37,7 @@ public class HTTPException extends Exception {
 	}
 
 	/**
+	 * Constructor
 	 * @param message
 	 * @param cause
 	 */
@@ -44,6 +47,7 @@ public class HTTPException extends Exception {
 	}
 
 	/**
+	 * Constructor
 	 * @param message
 	 * @param cause
 	 * @param enableSuppression
@@ -53,7 +57,10 @@ public class HTTPException extends Exception {
 		super(message, cause, enableSuppression, writableStackTrace);
 		this.httpResponseCode = -1;
 	}
-	
+	/**
+	 * Constructor
+	 * @param httpResponseCode
+	 */
 	public HTTPException(int httpResponseCode) {
 		this.httpResponseCode = httpResponseCode;
 	}

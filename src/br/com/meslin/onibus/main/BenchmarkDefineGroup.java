@@ -21,6 +21,7 @@ import br.com.meslin.onibus.aux.connection.HTTPException;
 import br.com.meslin.onibus.aux.contextnet.BenchmarkGroupSelectorImplementation;
 import br.com.meslin.onibus.aux.model.Bus;
 import br.com.meslin.onibus.interscity.InterSCity;
+import br.com.meslin.onibus.interscity.InterSCityConsumer;
 
 /**
  * Implements group definition and selection based on regions
@@ -31,11 +32,6 @@ import br.com.meslin.onibus.interscity.InterSCity;
  *
  */
 public class BenchmarkDefineGroup {
-	// statistics
-	public static long startTime = -1;	// negative means that there is no start time setted yet
-	public static long stopTime;
-	public static long nMessages;
-	
 	private static InterSCity interSCity;
 	
 	/** stores a queue of bus data to be sent to the InterSCity */
@@ -47,9 +43,9 @@ public class BenchmarkDefineGroup {
 		// Catch Ctrl+C
 		Runtime.getRuntime().addShutdownHook(new Thread() {
 		    public void run() {
-		    	long elapsedTime = stopTime - startTime;
+		    	long elapsedTime = StaticLibrary.stopTime - StaticLibrary.startTime;
 		    	System.err.println("CTRL+C");
-		    	System.err.println("Time: " +  elapsedTime + " (" + stopTime + " - " + startTime + ") with " + nMessages + " messages");
+		    	System.err.println("Time: " +  elapsedTime + " (" + StaticLibrary.stopTime + " - " + StaticLibrary.startTime + ") with " + StaticLibrary.nMessages + " messages");
 		    }
 		 });
 
@@ -65,7 +61,7 @@ public class BenchmarkDefineGroup {
 		System.out.println("BenchmarkDefineGroup builed at " + buildDate);
 		System.out.println("\n\nStarting Group Define using gateway at " + contextNetIPAddress + ":" + contextNetPortNumber + "\n\n");
 
-		nMessages = 0;		// for statistics
+		StaticLibrary.nMessages = 0;		// for statistics
 		
 		System.out.println("Ready, set...");
 
@@ -80,7 +76,7 @@ public class BenchmarkDefineGroup {
 		/**
 		 * Thread to send bus data to the InterSCity
 		 */
-		Thread consumer = new Thread(new Consumer(interSCity, busQueue));
+		Thread consumer = new Thread(new InterSCityConsumer(interSCity, busQueue));
 		consumer.start();
 		
 		System.out.println("\nGO!");
@@ -92,38 +88,4 @@ public class BenchmarkDefineGroup {
 			e.printStackTrace();
 		}
 	}
-}
-
-
-
-class Consumer implements Runnable {
-	/** stores a queue of bus data to be sent to the InterSCity */
-	private ConcurrentLinkedQueue<Bus> busQueue = new ConcurrentLinkedQueue<Bus>();
-	private InterSCity interSCity;
-
-	public Consumer(InterSCity interSCity, ConcurrentLinkedQueue<Bus> busQueue) {
-		this.interSCity = interSCity;
-		this.busQueue = busQueue;
-	}
-
-	@Override
-	public void run() {
-		Bus bus;
-		while(true) {
-			while(busQueue.isEmpty()) {
-				synchronized (busQueue) {
-					try {
-						busQueue.wait();
-					} catch (InterruptedException e) {
-						System.err.println("Date = " + new Date());
-						e.printStackTrace();
-					}
-				}
-			}
-			// busQueue is ConcurrentLinkedQueue thread safe linked queue, so, does NOT need to be synchronized
-			while ((bus = busQueue.poll()) != null) {
-				interSCity.updateDB(bus);
-			}
-		}
-	}	
 }

@@ -72,7 +72,31 @@ import java.net.URL;
 
 public class HTTPConnection {
 	private static final String USER_AGENT = "Mozilla/5.0";
+	private String interSCityURI;
 
+	/**
+	 * Constructor<br>
+	 * Just constructs an HTTP Connection object (==> does nothing!)<br>
+	 */
+	public HTTPConnection() {
+		interSCityURI = Constants.INTERSCITY_URL;
+	}
+	/**
+	 * Constructor<br>
+	 * Use IP address 0.0.0.0 to not use InterSCity<br>
+	 * @param interSCityIPAddress
+	 */
+	public HTTPConnection(String interSCityIPAddress) {
+		if(interSCityIPAddress == null) {
+			interSCityURI = Constants.INTERSCITY_URL;
+		}
+		else {
+			interSCityURI = "http://" + interSCityIPAddress + ":8000";
+		}
+	}
+
+	
+	
 	/**
 	 * Send HTTP DELETE request
 	 * @param directory
@@ -83,7 +107,9 @@ public class HTTPConnection {
 	 * @throws HTTPException 
 	 */
 	public String sendDelete(String directory, String data) throws MalformedURLException, IOException, HTTPException {
-		final String url = Constants.INTERSCITY_URL + "/" + directory + "/" + data;
+		if(interSCityURI.contains("0.0.0.0")) return null;
+		
+		final String url = interSCityURI + "/" + directory + "/" + data;
 		final String method = "DELETE";
 		
 		HttpURLConnection con = (HttpURLConnection) (new URL(url)).openConnection();
@@ -121,17 +147,21 @@ public class HTTPConnection {
 		return answer.toString();
 	}
 	
+	
+	
 	/**
 	 * Send HTTP GET request
 	 * @param directory
 	 * @param data
-	 * @return GET answer
+	 * @return GET answer or null if InterSCity IP address is 0.0.0.0
 	 * @throws MalformedURLException 
 	 * @throws IOException
 	 * @throws HTTPException 
 	 */
 	public String sendGet(String directory, String data) throws MalformedURLException, IOException, HTTPException {
-		final String url = Constants.INTERSCITY_URL + "/" + directory + "?" + data;
+		if(interSCityURI.contains("0.0.0.0")) return null;
+
+		final String url = interSCityURI + "/" + directory + "?" + data;
 		final String method = "GET";
 
 		HttpURLConnection con = (HttpURLConnection) (new URL(url)).openConnection();
@@ -166,6 +196,8 @@ public class HTTPConnection {
 		return answer.toString();
 	}
 
+	
+	
 	/**
 	 * Send HTTP PUT request
 	 * @param directory (includes directory and UUID)
@@ -176,7 +208,9 @@ public class HTTPConnection {
 	 * @throws HTTPException
 	 */
 	public String sendPut(String directory, String data) throws MalformedURLException, IOException, HTTPException {
-		final String url = Constants.INTERSCITY_URL + "/" + directory;
+		if(interSCityURI.contains("0.0.0.0")) return null;
+
+		final String url = interSCityURI + "/" + directory;
 		final String method = "PUT";
 		
 		HttpURLConnection con = (HttpURLConnection) (new URL(url)).openConnection();
@@ -215,6 +249,8 @@ public class HTTPConnection {
 		return answer.toString();
 	}
 
+	
+	
 	/**
 	 * Send HTTP POST request
 	 * @param directory
@@ -225,7 +261,9 @@ public class HTTPConnection {
 	 * @throws HTTPException 
 	 */
 	public String sendPost(String directory, String data) throws MalformedURLException, IOException, HTTPException {
-		final String url = Constants.INTERSCITY_URL + "/" + directory;
+		if(interSCityURI.contains("0.0.0.0")) return null;
+
+		final String url = interSCityURI + "/" + directory;
 		final String method = "POST";
 
 		HttpURLConnection con = (HttpURLConnection) (new URL(url)).openConnection();

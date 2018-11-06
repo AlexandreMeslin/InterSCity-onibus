@@ -1,6 +1,7 @@
 package br.com.meslin.onibus.aux;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
@@ -35,6 +36,7 @@ import org.openstreetmap.gui.jmapviewer.tilesources.BingAerialTileSource;
 import org.openstreetmap.gui.jmapviewer.tilesources.OsmTileSource;
 
 import br.com.meslin.onibus.aux.model.Bus;
+import br.com.meslin.onibus.aux.model.Passenger;
 import br.com.meslin.onibus.aux.model.Region;
 
 /**
@@ -219,7 +221,7 @@ public class GeographicMap extends JFrame implements JMapViewerEventListener
     }
     
     /**
-     * adds a bus using geographic coordinates
+     * Adds a bus to the map using geographic coordinates and its label
      * @param label
      * @param coordinate
      */
@@ -231,19 +233,32 @@ public class GeographicMap extends JFrame implements JMapViewerEventListener
     	mapMarkerDotList.add(avatar);
     }
     /**
-     * adds a bus
+     * Adds a bus to the map<br>
      * @param bus
      */
-	public void addBus(Bus bus)
-	{
+	public void addBus(Bus bus) {
 		addBus(bus.getLinha() + "@" + bus.getOrdem(), new Coordinate(bus.getLatitude(), bus.getLongitude()));
 	}
+	
+	/**
+	 * Adds a passenger to the map
+	 * @param passenger
+	 */
+	public void addPassenger(Passenger passenger) {
+		MapMarkerDot avatar = new MapMarkerDot(new Coordinate(passenger.getLatitude(), passenger.getLongitude()));
+		avatar.setName(passenger.getName());
+		avatar.setBackColor(new Color(0, 0, 255));
+		map().addMapMarker(avatar);
+	}
 
-	public void remove(Bus bus)
-	{
+	/**
+	 * Removes a bus form the map<br>
+	 * @param bus
+	 */
+	public void remove(Bus bus) {
 		for(Iterator<MapMarkerDot> iterator = mapMarkerDotList.iterator(); iterator.hasNext();) {
 			MapMarkerDot mapMarkerDot = iterator.next();
-			if(mapMarkerDot.equals(bus.getLinha() + "@" + bus.getOrdem())) {
+			if(mapMarkerDot.getName().equals(bus.getLinha() + "@" + bus.getOrdem())) {
 				map().removeMapMarker(mapMarkerDot);
 				iterator.remove();
 			}
