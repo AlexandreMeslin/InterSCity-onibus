@@ -124,7 +124,7 @@ public class BenchmarkMyCore {
 		interSCityIPAddress = cmd.getOptionValue("InterSCity");	// null if not available
 		
 		StaticLibrary.forceHeadless = cmd.hasOption("force-headless");
-		Debug.println("Running as headless: " + StaticLibrary.forceHeadless);
+		Debug.warning("Running as headless: " + StaticLibrary.forceHeadless);
 
 		StaticLibrary.nMessages = 0;		// for statistics
 

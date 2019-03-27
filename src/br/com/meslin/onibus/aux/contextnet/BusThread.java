@@ -18,6 +18,7 @@ import lac.cnclib.sddl.message.Message;
 import br.com.meslin.onibus.aux.Debug;
 import br.com.meslin.onibus.aux.StaticLibrary;
 import br.com.meslin.onibus.aux.model.Bus;
+import br.com.meslin.onibus.main.BenchmarkOnibusV2;
 
 public class BusThread implements Runnable, NodeConnectionListener, GroupMembershipListener {
 	private int id;		// just a sequencial to index the onibus vectors (bus thread vector vs bus return value vector) 
@@ -96,10 +97,10 @@ public class BusThread implements Runnable, NodeConnectionListener, GroupMembers
 		double lastLat = 0;
 		double lastLon = 0;
 		/*
-		 * canStart is null when there is no need for thread synchronization during conetion fase.
+		 * canStart is null when there is no need for thread synchronization during connection fase.
 		 * The only requirement is to not make a connection in less than intervalBetweenThreads milliseconds.
-		 * The variable lastConnectionTime stores when the last connection occured.
-		 * Ohterwise, must wait for canStart synchronization to begin to send data.
+		 * The variable lastConnectionTime stores the time the last connection occured.
+		 * Ohterwise (if canStart is not null), must wait for canStart synchronization to begin to send data.
 		 */
 		if(canStart == null) {
 			synchronized (threadReturnValue) {	// instead of threadReturnValue, it should be lastConnectionTime, but it does not work with this last option
@@ -117,22 +118,32 @@ public class BusThread implements Runnable, NodeConnectionListener, GroupMembers
 			}
 		}
 		else {
-			synchronized (canStart) {}		// wait all threads to be ready to go
+			/*
+			 * TODO
+			 * This loop is (probabily) unecessary.
+			 * The synchronized instruction should be sufficent, but it's not working
+			 * for a huge amount of buses (more then 16000).
+			 * This workaround **MUST** be removed after the tests were completed.
+			 */
+			while(BenchmarkOnibusV2.busNumber < BenchmarkOnibusV2.nBuses) {
+				synchronized (canStart) {}		// wait all threads to be ready to go
+				Debug.warning("Starting...");
+			}
 		}
 		
 		// wait a while to begin to send packets
 		try {
-			Thread.sleep(StaticLibrary.interval);
+			Thread.sleep((long) (StaticLibrary.interval - StaticLibrary.interval / StaticLibrary.variance + 2 * (Math.random() * StaticLibrary.interval)/StaticLibrary.variance));
 		} catch (InterruptedException e1) {
 			System.err.println("Date = " + new Date());
 			e1.printStackTrace();
 		}
-		
+
 		for(long i=0; (maxIterations!=0 && i<maxIterations) || (maxIterations==0 && !Thread.interrupted()); i++) {
-			
-			// will send a new position only if its a NEW position (will not send the same position twice
-			if(lastLat != bus.getLatitude() && lastLon != bus.getLongitude()) {
-				if(threadReturnValue.get(bus.getOrdem())%100==0) System.out.print(".");
+			// will send a new position only if its a NEW position (will not send the same position twice)
+			// but always will send position if in qtd iteration mode (load benchmark)
+			if(maxIterations != 0 || (lastLat != bus.getLatitude() && lastLon != bus.getLongitude())) {
+				if(threadReturnValue.get(bus.getOrdem())%1000==0) System.out.print(".");
 				lastLat = bus.getLatitude();
 				lastLon = bus.getLongitude();
 				if(!sendBusToContextNet()) {
@@ -143,14 +154,14 @@ public class BusThread implements Runnable, NodeConnectionListener, GroupMembers
 			}
 			threadReturnValue.put(bus.getOrdem(), threadReturnValue.get(bus.getOrdem()) +1);
 			try {
-				Thread.sleep(2000);
-//				Thread.sleep((long) (StaticLibrary.interval - StaticLibrary.interval / StaticLibrary.variance + 2 * (Math.random() * StaticLibrary.interval)/StaticLibrary.variance));
+//				Thread.sleep(2000);
+				Thread.sleep((long) (StaticLibrary.interval - StaticLibrary.interval / StaticLibrary.variance + 2 * (Math.random() * StaticLibrary.interval)/StaticLibrary.variance));
 			} catch (InterruptedException e) {
 				System.err.println("Date = " + new Date());
 				e.printStackTrace();
 			}
 		}
-		Debug.println("Thread " + bus.getOrdem() + " finished");
+		Debug.warning("Thread " + bus.getOrdem() + " finished");
 	}
 
 	
@@ -165,7 +176,7 @@ public class BusThread implements Runnable, NodeConnectionListener, GroupMembers
 		// sends coordinates to the selector
 		try {
 			ApplicationMessage message = new ApplicationMessage();
-			if(this.bus.getLinha().equals("117") && this.bus.getOrdem().equals("A72005")) Debug.println("This bus " + this.bus + " at " + System.currentTimeMillis());
+			if(this.bus.getLinha().equals("117") && this.bus.getOrdem().equals("A72005")) Debug.warning("This bus " + this.bus + " at " + System.currentTimeMillis());
 			message.setContentObject(this.bus);
 			this.connection.sendMessage(message);
 		}

@@ -125,7 +125,7 @@ public class UploadBuses {
 		Calendar startDay;		// the day the upload will begin
 		startDay = Calendar.getInstance();
 		startDay.add(Calendar.DATE, 1);		// the upload will start tomorrow
-		Debug.println("Waiting until tomorrow");
+		Debug.warning("Waiting until tomorrow");
 		// loop awaint tomorrow
 		do {
 			today = Calendar.getInstance();
@@ -136,7 +136,7 @@ public class UploadBuses {
 		File[] listOfFiles = folder.listFiles();
 		Arrays.sort(listOfFiles);
 
-		Debug.println("Uploading " + listOfFiles.length + " files");
+		Debug.warning("Uploading " + listOfFiles.length + " files");
 		for (int fileIndex = 0; fileIndex < listOfFiles.length; fileIndex++) {
 			Matcher matcher = pattern.matcher(listOfFiles[fileIndex].getName());
 			if (listOfFiles[fileIndex].isFile() && matcher.find()) {

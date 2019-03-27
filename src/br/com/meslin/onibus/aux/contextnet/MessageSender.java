@@ -37,7 +37,7 @@ public final class MessageSender implements NodeConnectionListener {
 	 * 
 	 */
 	private MessageSender() {
-		StaticLibrary.uuidLocal = UUID.randomUUID();
+		StaticLibrary.coreUUID = UUID.randomUUID();
 		StaticLibrary.sequencial = 0;
 
 		/*
@@ -45,7 +45,7 @@ public final class MessageSender implements NodeConnectionListener {
 		 */
 		InetSocketAddress endereco = new InetSocketAddress(StaticLibrary.contextNetIPAddress, StaticLibrary.contextNetPortNumber);
 		try {
-			connection = new MrUdpNodeConnection(StaticLibrary.uuidLocal);
+			connection = new MrUdpNodeConnection(StaticLibrary.coreUUID);
 			// *** inverti a ordem para ver se o pedido de conexão fica mais estável
 			connection.addNodeConnectionListener(this);
 			connection.connect(endereco);
@@ -63,7 +63,7 @@ public final class MessageSender implements NodeConnectionListener {
 	public boolean sendMessageToGroup(int targetGroup, JSONObject jsonObject) {
 		Group group = new Group(StaticLibrary.PASSENGER_GROUP, targetGroup);
 		ApplicationMessage message = new ApplicationMessage();
-		message.setSenderID(StaticLibrary.uuidLocal);
+		message.setSenderID(StaticLibrary.coreUUID);
 		message.setPayloadType(PayloadSerialization.JSON);
 		message.setContentObject(jsonObject.toString());
 		try {

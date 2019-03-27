@@ -142,7 +142,6 @@ public class BenchmarkMyGroupSelector implements GroupSelector {
 		}
 		else if(mobileObject instanceof Passenger) {
 			passenger = (Passenger) mobileObject;
-			Debug.println("Passenger ==> " + passenger);
 			map.addPassenger(passenger);
 		}
 
@@ -160,7 +159,7 @@ public class BenchmarkMyGroupSelector implements GroupSelector {
 				if(!bus.getGroups().contains(group)) {
 					EventRegion eventRegion = new EventRegion(bus, group, System.currentTimeMillis());
 					epService.getEPRuntime().sendEvent(eventRegion);
-					if(bus.getLinha().equals("117") && group == 1) Debug.println("Evento sendo gerado");
+					if(bus.getLinha().equals("117") && group == 1) Debug.warning("Evento sendo gerado");
 				}
 			}
 			bus.setGroups(newGroups);

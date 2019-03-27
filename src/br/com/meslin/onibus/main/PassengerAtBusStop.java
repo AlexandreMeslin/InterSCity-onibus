@@ -1,14 +1,10 @@
 /**
- * 
+ * Implements several passengers at the same bus stop<br>
+ * Each passenger is represented by a thread<br>
  */
 package br.com.meslin.onibus.main;
 
-import java.io.IOException;
-import java.net.InetSocketAddress;
-import java.net.SocketAddress;
 import java.util.Date;
-import java.util.List;
-import java.util.UUID;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -18,23 +14,17 @@ import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
+import br.com.meslin.onibus.aux.Debug;
 import br.com.meslin.onibus.aux.StaticLibrary;
 import br.com.meslin.onibus.aux.connection.Constants;
-import br.com.meslin.onibus.aux.model.Passenger;
-import lac.cnclib.net.NodeConnection;
-import lac.cnclib.net.NodeConnectionListener;
-import lac.cnclib.net.groups.Group;
-import lac.cnclib.net.groups.GroupCommunicationManager;
-import lac.cnclib.net.groups.GroupMembershipListener;
-import lac.cnclib.net.mrudp.MrUdpNodeConnection;
-import lac.cnclib.sddl.message.ApplicationMessage;
-import lac.cnclib.sddl.message.Message;
+import br.com.meslin.onibus.aux.contextnet.PassengerThread;
+import br.com.meslin.onibus.aux.model.BenchmarkDateTime;
 
 /**
  * @author meslin
  *
  */
-public class PassengerAtBusStop implements NodeConnectionListener, GroupMembershipListener {
+public class PassengerAtBusStop {
 
 	/*
 	 * Command line parameters
@@ -42,43 +32,30 @@ public class PassengerAtBusStop implements NodeConnectionListener, GroupMembersh
 	private static double passengerLatitude;
 	private static double passengerLongitude;
 	private static String passengerName;
+	/** number of passenger at the same bus stop */
+	private static int nPassenger;
 
-	
+
 	/*
 	 * Attributes
 	 */
-	private MrUdpNodeConnection connection;
-	private GroupCommunicationManager groupManager;
-
+	private static Thread[] passengerThread;
 
 	/**
 	 * Constructor<br>
 	 */
 	public PassengerAtBusStop() {
-		/*
-		 * Connect to ContextNet
-		 */
-		StaticLibrary.uuidLocal = UUID.randomUUID();
-		InetSocketAddress address = new InetSocketAddress(StaticLibrary.contextNetIPAddress, StaticLibrary.contextNetPortNumber);
-		try {
-			connection = new MrUdpNodeConnection(StaticLibrary.uuidLocal);
-			connection.connect(address);
-			connection.addNodeConnectionListener(this);
-		} catch (IOException e) {
-			System.err.println(new Date());
-			e.printStackTrace();
-		}
-		
-		/*
-		 * Send passenger position (latitude and longitude)
-		 */
-		ApplicationMessage message = new ApplicationMessage();
-		message.setContentObject(new Passenger(passengerName, passengerLatitude, passengerLongitude));
-		try {
-			connection.sendMessage(message);
-		} catch (IOException e) {
-			System.err.println(new Date());
-			e.printStackTrace();
+		passengerThread = new Thread[nPassenger];
+		for(int i=0; i<nPassenger; i++) {
+			Debug.info("Creating thread #" + (i+1));
+			passengerThread[i] = new Thread(new PassengerThread(i, passengerLatitude, passengerLongitude, passengerName));
+			passengerThread[i].start();
+			try {
+				Thread.sleep(StaticLibrary.intervalBetweenThreads);
+			} catch (InterruptedException e) {
+				System.err.println("\nDate = " + new Date());
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -89,6 +66,16 @@ public class PassengerAtBusStop implements NodeConnectionListener, GroupMembersh
 	public static void main(String[] args) {
 		final Date buildDate = StaticLibrary.getClassBuildTime();
 		System.out.println("PassengerAtBusStop builded at " + buildDate);
+		
+		// Catch Ctrl+C
+		Runtime.getRuntime().addShutdownHook(new Thread() {
+		    public void run() {
+		    	BenchmarkDateTime dateTime = BenchmarkDateTime.getInstance();
+		    	Debug.warning("CTRL+C");
+		    	Debug.warning(dateTime.toString());
+		    }
+		 });
+
 
 		// get command line options
 		Options options = new Options();
@@ -112,6 +99,10 @@ public class PassengerAtBusStop implements NodeConnectionListener, GroupMembersh
 
 		option = new Option("o", "longitude", true, "Passenger's longitude in degrees");
 		option.setRequired(true);
+		options.addOption(option);
+		
+		option = new Option("q", "number", true, "number of passenger at the same bus stop");
+		option.setRequired(false);
 		options.addOption(option);
 
 		CommandLineParser parser = new DefaultParser();
@@ -149,56 +140,27 @@ public class PassengerAtBusStop implements NodeConnectionListener, GroupMembersh
 		if((passengerName = cmd.getOptionValue("name")) == null) {
 			passengerName = "NoName" + ((int) (Math.random() * 100000));
 		}
+		try {
+			nPassenger = Integer.parseInt(cmd.getOptionValue("number"));
+		} catch(Exception e) {
+			nPassenger = 1;
+		}
 
 		new PassengerAtBusStop();
-	}
-
-	@Override
-	public void enteringGroups(List<Group> arg0) {
-		// TODO Auto-generated method stub
+		System.out.println(nPassenger + " passenger(s) ready!");
 		
-	}
-
-	@Override
-	public void leavingGroups(List<Group> arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void connected(NodeConnection remoteCon) {
-		groupManager = new GroupCommunicationManager(remoteCon);
-		groupManager.addMembershipListener(this);		
-	}
-
-	@Override
-	public void disconnected(NodeConnection arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void internalException(NodeConnection arg0, Exception arg1) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void newMessageReceived(NodeConnection remoteCon, Message message) {
-		System.out.println("Message received at " + (new Date()).getTime());
-		System.out.println("Message received: " + message.getContentObject());
-	}
-
-	@Override
-	public void reconnected(NodeConnection arg0, SocketAddress arg1,
-			boolean arg2, boolean arg3) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void unsentMessages(NodeConnection arg0, List<Message> arg1) {
-		// TODO Auto-generated method stub
-		
+		BenchmarkDateTime dateTime = BenchmarkDateTime.getInstance();
+		// wait for all bus threads to stop 
+		for(int i=0; i<nPassenger; i++) {
+			try {
+				Debug.info(dateTime.toString());
+				passengerThread[i].join();
+				Debug.info((i+1) + " passenger notified");
+			} catch (InterruptedException e) {
+				System.err.println("\nDate = " + new Date());
+				e.printStackTrace();
+			}
+		}
+		Debug.warning("All passengers had been notified");
 	}
 }

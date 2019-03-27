@@ -11,18 +11,13 @@
  */
 package br.com.meslin.onibus.main;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.rmi.Naming;
-import java.rmi.NotBoundException;
-import java.rmi.RemoteException;
+//import java.rmi.Naming;
+//import java.rmi.NotBoundException;
+//import java.rmi.RemoteException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 import java.util.UUID;
 
 import org.apache.commons.cli.CommandLine;
@@ -32,20 +27,18 @@ import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
-import br.com.meslin.onibus.aux.MyRMIServer;
-import br.com.meslin.onibus.aux.RMIServerIntf;
+import prefecture.Prefecture;
+//import br.com.meslin.onibus.aux.MyRMIServer;
+//import br.com.meslin.onibus.aux.RMIServerIntf;
 import br.com.meslin.onibus.aux.StaticLibrary;
 import br.com.meslin.onibus.aux.connection.Constants;
 import br.com.meslin.onibus.aux.contextnet.BusThread;
 import br.com.meslin.onibus.aux.model.Bus;
+//import java.net.MalformedURLException;
 
 /**
  * @author Meslin
- *
  */
 public class BenchmarkOnibusV2 {
 	// constants
@@ -68,12 +61,11 @@ public class BenchmarkOnibusV2 {
 	// syncronization
 	private static Object canStart;				// just a sincronize object
 	private static Map<String, Integer> threadReturnValue;
-	private static String rmiServerAddress;
+//	private static String rmiServerAddress;
 
-	/** bus indexed by ORDEM<br>Map&lt;ORDEM, Bus&gt; */
-	public volatile static Map<String, Bus> buses;
-	private static int nBuses;					// number of buses, for simulation purpose
-
+	/** number of buses, for simulation purpose */
+	public volatile static int nBuses;					
+	public volatile static int busNumber;
 
 
 	/**
@@ -85,7 +77,6 @@ public class BenchmarkOnibusV2 {
 		threadReturnValue = new HashMap<String, Integer>();
 		busThread = new Thread[nBuses];
 		
-		buses = new HashMap<String, Bus>();
 		System.out.println("[" + this.getClass().getName() + "." + "Benchmark] ContextNet address: " + gatewayIP + ":" + gatewayPort + "\n\n");
 	}
 
@@ -94,6 +85,10 @@ public class BenchmarkOnibusV2 {
 	/**
 	 * @param args
 	 * @throws InterruptedException 
+	 */
+	/**
+	 * @param args
+	 * @throws InterruptedException
 	 */
 	public static void main(String[] args) throws InterruptedException {
 		final Date buildDate = StaticLibrary.getClassBuildTime();
@@ -122,11 +117,11 @@ public class BenchmarkOnibusV2 {
 		option = new Option("p", "port", true, "ContextNet Gateway IP port number");
 		option.setRequired(false);
 		options.addOption(option);
-		
-		option = new Option("m", "main", true, "Main RMI server address");
+
+/*		option = new Option("m", "main", true, "Main RMI server address");
 		option.setRequired(false);
 		options.addOption(option);
-		
+*/		
 		CommandLineParser parser = new DefaultParser();
 		HelpFormatter formatter = new HelpFormatter();
 		CommandLine cmd;
@@ -163,13 +158,13 @@ public class BenchmarkOnibusV2 {
 		} catch(Exception e) {
 			// no default parameters setted here (it is setted at StaticLibrary
 		}
-		rmiServerAddress = cmd.getOptionValue("main");
+//		rmiServerAddress = cmd.getOptionValue("main");
 
 		System.out.println("[BenchmarkOnibusV2.main] Starting sending " + maxIterations + " packets every " + StaticLibrary.interval + " milliseconds from " + nBuses + " buses");
 
 		System.out.println("Ready, set...");
 
-		// new RMI server
+/*		// new RMI server
 		MyRMIServer.nClients = new Integer(0);
 		if(!cmd.hasOption("m")) {
 			// binds this object instance to the name "Onibus"
@@ -181,7 +176,7 @@ public class BenchmarkOnibusV2 {
 				e.printStackTrace();
 			}
 		}
-
+*/
 		BenchmarkOnibusV2 bench = new BenchmarkOnibusV2();
 		
 		// do all
@@ -214,9 +209,9 @@ public class BenchmarkOnibusV2 {
 	 */
 	private void doAll() {
 		Bus bus;
-		RMIServerIntf rmiServerIntf = null;
+//		RMIServerIntf rmiServerIntf = null;
 
-		// creates or connects to a RMI server
+/*		// creates or connects to a RMI server
 		if(BenchmarkOnibusV2.rmiServerAddress != null) {
 			// this instance is the client
 			try {
@@ -234,20 +229,21 @@ public class BenchmarkOnibusV2 {
 			MyRMIServer.nClients++;
 			System.err.println("[" + this.getClass().getName() + "." + new Object(){}.getClass().getEnclosingMethod().getName() + "] nClients = " + MyRMIServer.nClients);
 		}
-
+*/
 		// create each bus
 		// create a thread for each bus
 		synchronized(canStart) {
-			for(int i=0; i<nBuses; i++) {
-				bus = getABus(584);
-				bus.setOrdem(bus.getOrdem()+i);	// apenas para não haver ordem repetida durante o benchmark (esse comando deve ser retirado na versão de produção)
+			Prefecture prefecture = new Prefecture();
+			for(busNumber=0; busNumber<nBuses; busNumber++) {
+				bus = prefecture.getABus(584);
+				bus.setOrdem(bus.getOrdem()+busNumber);	// apenas para não haver ordem repetida durante o benchmark (esse comando deve ser retirado na versão de produção)
 				bus.addGroup(1);
 				bus.setUUID(UUID.randomUUID());
-				if(!buses.containsKey(bus.getOrdem())) {
-					System.out.println("Connecting bus #" + i);
-					buses.put(bus.getOrdem(), bus);
-					busThread[i] = new Thread(new BusThread(gatewayIP, gatewayPort, bus, i, maxIterations, canStart, threadReturnValue));
-					busThread[i].start();
+				if(!Prefecture.buses.containsKey(bus.getOrdem())) {
+					System.out.println("Connecting bus #" + busNumber);
+					Prefecture.buses.put(bus.getOrdem(), bus);
+					busThread[busNumber] = new Thread(new BusThread(gatewayIP, gatewayPort, bus, busNumber, maxIterations, canStart, threadReturnValue));
+					busThread[busNumber].start();
 					try {
 						Thread.sleep(StaticLibrary.intervalBetweenThreads);
 					} catch (InterruptedException e) {
@@ -257,13 +253,14 @@ public class BenchmarkOnibusV2 {
 				}
 			}
 			// adds a delay corresponding to 10% of the time of the connection phase to wait for the other sets of clients (other machines) to terminate their connection phases
-			try {
+/*			try {
 				Thread.sleep((long) (nBuses * StaticLibrary.intervalBetweenThreads * 0.10));
 			} catch (InterruptedException e) {
 				System.err.println("Date = " + new Date());
 				e.printStackTrace();
 			}
-			if(BenchmarkOnibusV2.rmiServerAddress != null) {
+*/
+/*			if(BenchmarkOnibusV2.rmiServerAddress != null) {
 				try {
 					rmiServerIntf.clientReady();
 					while(!rmiServerIntf.allReady()) {}
@@ -278,6 +275,11 @@ public class BenchmarkOnibusV2 {
 				MyRMIServer.nClients--;
 				while(MyRMIServer.nClients != 0) {}
 			}
+*/
+			System.out.println("When ready, press <ENTER> to GO:");
+			Scanner scanner = new Scanner(System.in);
+			scanner.nextLine();
+			scanner.close();
 		}
 
 		System.out.println("***** GO!!!! *****");
@@ -289,7 +291,7 @@ public class BenchmarkOnibusV2 {
 			try {
 				busThread[i].join();
 			} catch (InterruptedException e) {
-				System.err.println("Date = " + new Date());
+				System.err.println("\nDate = " + new Date());
 				e.printStackTrace();
 			}
 		}
@@ -300,229 +302,5 @@ public class BenchmarkOnibusV2 {
 		}
 
 		stopTime = System.currentTimeMillis();
-	}
-
-
-	
-	/**
-	 * Gets a single bus from city hall database using getAllPositions
-	 * @param line
-	 * @return
-	 */
-	protected Bus getABus() {
-		return getABus("");
-	}
-	/**
-	 * Gets a single bus from city hall database using getAllPositions
-	 * @param line
-	 * @return
-	 */
-	protected Bus getABus(int line) {
-		return getABus(Integer.toString(line));
-	}
-	/**
-	 * Gets a single bus from city hall database using getAllPositions
-	 * @param line
-	 * @return
-	 */
-	protected Bus getABus(String line) {
-		getAllPositions(line);
-		Bus newBus = null;
-		
-		// Get the first bus (only!)
-		for(Map.Entry<String, Bus> busEntry: buses.entrySet()) {
-			newBus = busEntry.getValue();
-			newBus.setOrdem("12345");
-			break;
-		}
-		if(newBus==null) {
-			return null;
-		}
-		return newBus;
-	}
-	
-	/**
-	 * Gets all bus positions from city hall<br>
-	 * gets all bus positions<br>
-	 * Fills global object buses with new buses or update their positions<br>
-	 * 
-	 * City hall data format:<br>
-     *{<br>
-     *	"COLUMNS":[<br>
-     * 		"DATAHORA",<br>
-     *		"ORDEM",<br>
-     *		"LINHA",<br>
-     *		"LATITUDE",<br>
-     *		"LONGITUDE",<br>
-     *		"VELOCIDADE"<br>
-  	 *	],<br>
-  	 *	"DATA":[<br>
-     *		[<br>
-     *	 		"MM-DD-YYY HH:MM:SS",<br>
-     *			"ORDEM",<br>
-     *			"LINHA",<br>
-     *			LATITUDE,<br>
-     *			LONGITUDE,<br>
-     *			VELOCIDADE<br>
-     *		],<br>
-     *		[], []<br>
-	 */
-	public void getAllPositions() {
-		getAllPositions("");
-	}
-	/**
-	 * Gets all bus positions from city hall<br>
-	 * @see BenchmarkOnibusV2#getAllPositions()
-	 * {@link BenchmarkOnibusV2#getAllPositions()}
-	 * @param line bus line
-	 *
-	 * City hall data format:<br>
-     *{<br>
-     *	"COLUMNS":[<br>
-     * 		"DATAHORA",<br>
-     *		"ORDEM",<br>
-     *		"LINHA",<br>
-     *		"LATITUDE",<br>
-     *		"LONGITUDE",<br>
-     *		"VELOCIDADE"<br>
-  	 *	],<br>
-  	 *	"DATA":[<br>
-     *		[<br>
-     *	 		"MM-DD-YYY HH:MM:SS",<br>
-     *			"ORDEM",<br>
-     *			"LINHA",<br>
-     *			LATITUDE,<br>
-     *			LONGITUDE,<br>
-     *			VELOCIDADE<br>
-     *		],<br>
-     *		[], []<br>
-	 */
-	public void getAllPositions(int line) {
-		getAllPositions(Integer.toString(line));
-	}
-	/**
-	 * Gets all bus positions from city hall<br>
-	 * This method updates the List<Bus> buses class object.
-	 * If the bus is already registered, only its position is updated.
-	 * If the bus is new (not yet registered), a new bus entry is created<br>
-	 * On error, while connecting to the city hall website, the buses object is not updated
-	 * @see BenchmarkOnibusV2#getAllPositions()
-	 * {@link BenchmarkOnibusV2#getAllPositions()}
-	 * @param line bus route
-	 * 
- 	 * City hall data format:<br>
-     *{<br>
-     *	"COLUMNS":[<br>
-     * 		"DATAHORA",<br>
-     *		"ORDEM",<br>
-     *		"LINHA",<br>
-     *		"LATITUDE",<br>
-     *		"LONGITUDE",<br>
-     *		"VELOCIDADE"<br>
-  	 *	],<br>
-  	 *	"DATA":[<br>
-     *		[<br>
-     *	 		"MM-DD-YYY HH:MM:SS",<br>
-     *			"ORDEM",<br>
-     *			"LINHA",<br>
-     *			LATITUDE,<br>
-     *			LONGITUDE,<br>
-     *			VELOCIDADE<br>
-     *		],<br>
-     *		[], []<br>
-	 */
-	@SuppressWarnings("deprecation")
-	public void getAllPositions(String line) {
-//		System.err.println("[" + this.getClass().getName() + "." + new Object(){}.getClass().getEnclosingMethod().getName() + "] with line = |" + line + "|");
-		URL url;
-		HttpURLConnection connection = null;
-		int responseCode =-1;
-		StringBuffer buffer = null;
-
-		// Connect to bus data base
-		try {
-			url = new URL("http://dadosabertos.rio.rj.gov.br/apiTransporte/apresentacao/rest/index.cfm/obterTodasPosicoes");
-			connection = (HttpURLConnection) url.openConnection();
-			connection.setRequestMethod("GET");
-			connection.setRequestProperty("User-Agent", StaticLibrary.USER_AGENT);
-			responseCode = connection.getResponseCode();
-		} catch (IOException e) {
-			System.err.println("Date = " + new Date());
-			System.err.println("***** [" + this.getClass().getName() + "." + new Object(){}.getClass().getEnclosingMethod().getName() + "] Fatal error while getting bus positions from the city hall website");
-			e.printStackTrace();
-		}
-
-		// read bus data
-		if(responseCode == 200) {
-			try {
-				BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-				String inputLine;
-				buffer = new StringBuffer();
-				while((inputLine = reader.readLine()) != null) {
-					buffer.append(inputLine);
-				}
-				reader.close();
-			} catch (IOException e) {
-				System.err.println("Date = " + new Date());
-				System.err.println("***** [" + this.getClass().getName() + "." + new Object(){}.getClass().getEnclosingMethod().getName() + "] Fatal error while reading bus positions: " + e.getMessage());
-				e.printStackTrace();
-				return;
-			}
-		}
-		else {
-			return;
-		}
-
-		// create a JSON object based on bus data
-		if(buffer != null) {
-			JSONObject jsonObject = new JSONObject(buffer.toString());
-			JSONArray jsonData = jsonObject.getJSONArray("DATA");
-//			System.err.println("[" + this.getClass().getName() + "." + new Object(){}.getClass().getEnclosingMethod().getName() + "] DATA = " + jsonData);
-//			System.err.println("[" + this.getClass().getName() + "." + new Object(){}.getClass().getEnclosingMethod().getName() + "] " + jsonData.length() + " buses");
-//			buses = new HashMap<String, Bus>();
-			for(int i=0; i<jsonData.length(); i++) {
-				JSONArray jsonBus = jsonData.getJSONArray(i);
-				Bus bus = new Bus();
-				bus.setData(new Date(
-						Integer.parseInt(jsonBus.getString(StaticLibrary.DATAHORA).split("[\\- :]")[2]),
-						Integer.parseInt(jsonBus.getString(StaticLibrary.DATAHORA).split("[\\- :]")[0]),
-						Integer.parseInt(jsonBus.getString(StaticLibrary.DATAHORA).split("[\\- :]")[1]),
-						Integer.parseInt(jsonBus.getString(StaticLibrary.DATAHORA).split("[\\- :]")[3]),
-						Integer.parseInt(jsonBus.getString(StaticLibrary.DATAHORA).split("[\\- :]")[4]),
-						Integer.parseInt(jsonBus.getString(StaticLibrary.DATAHORA).split("[\\- :]")[5])
-				));
-				bus.setOrdem(jsonBus.getString(StaticLibrary.ORDEM));
-				try {
-					bus.setLinha(jsonBus.getString(StaticLibrary.LINHA));
-				} catch (JSONException e) {
-					bus.setLinha(jsonBus.getInt(StaticLibrary.LINHA));
-				}
-				bus.setLatitude(jsonBus.getDouble(StaticLibrary.LATITUDE));
-				bus.setLongitude(jsonBus.getDouble(StaticLibrary.LONGITUDE));
-				bus.setVelocidade(jsonBus.getDouble(StaticLibrary.VELOCIDADE));
-				
-				// Filter buses based on bus line
-				if(bus.getLinha().contains(line)) {
-					// if we already know this bus, just update its info. Do not change group info nor ordem (ordem is the primary key)
-//					System.err.println("[" + this.getClass().getName() + "." + new Object(){}.getClass().getEnclosingMethod().getName() + "] ordem = " + bus.getOrdem());
-					if(buses.containsKey(bus.getOrdem())) {
-						buses.get(bus.getOrdem()).setData(bus.getData());
-						buses.get(bus.getOrdem()).setLatitude(bus.getLatitude());
-						buses.get(bus.getOrdem()).setLongitude(bus.getLongitude());
-						buses.get(bus.getOrdem()).setLinha(bus.getLinha());
-						buses.get(bus.getOrdem()).setVelocidade(bus.getVelocidade());
-					}
-					// otherwise, creates a new entry without group information
-					else {
-						buses.put(jsonBus.getString(StaticLibrary.ORDEM), bus);
-					}
-//					System.err.println("[" + this.getClass().getName() + "." + new Object(){}.getClass().getEnclosingMethod().getName() + "] Selecionado: " + bus);
-				}
-			}
-//			System.err.println("[" + this.getClass().getName() + "." + new Object(){}.getClass().getEnclosingMethod().getName() + "] Total de ônibus: " + buses.size());
-		}
-//		else {
-//			System.err.println("***** [" + this.getClass().getName() + "." + new Object(){}.getClass().getEnclosingMethod().getName() + "] Error code #" + responseCode);
-//		}
 	}
 }

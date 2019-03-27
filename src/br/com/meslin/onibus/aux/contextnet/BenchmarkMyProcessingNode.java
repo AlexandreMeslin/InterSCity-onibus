@@ -95,7 +95,7 @@ public class BenchmarkMyProcessingNode implements UDIDataReaderListener<Applicat
 		if(mobileObject instanceof Bus) {
 			if(StaticLibrary.startTime < 0) {
 				StaticLibrary.startTime = System.currentTimeMillis();
-				Debug.println("Starting at " + StaticLibrary.startTime);
+				Debug.warning("Starting at " + StaticLibrary.startTime);
 			}
 			StaticLibrary.nMessages++;
 

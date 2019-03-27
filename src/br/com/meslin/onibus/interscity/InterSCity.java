@@ -123,7 +123,7 @@ public class InterSCity {
 		jsonObject = new JSONObject();
 		jsonObject.put("data", data);
 		String jsonString = jsonObject.toString().replace("[[", "[").replace("]]", "]");
-		Debug.println("Tamanho do payload ==> " + jsonString.length());
+		Debug.warning("Tamanho do payload ==> " + jsonString.length());
 //		System.err.println("[" + this.getClass().getName() + "." + new Object(){}.getClass().getEnclosingMethod().getName() + "] Updating values to " + jsonObject.toString(2));
 
 //		System.err.print("<");

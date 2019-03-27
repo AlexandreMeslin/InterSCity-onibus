@@ -43,7 +43,7 @@ public class EventBusArrivingListener implements UpdateListener {
 	public void update(EventBean[] newEvents, EventBean[] oldEvents) {
 		try {
 			MessageSender messageSender = MessageSender.getInstance();	// must be one of the first commands to create UUID when constructing a MessageSender object
-			Debug.println("***** EVENT: bus arriving! ***** bus " + newEvents[0].get("bus") + " at region " + newEvents[0].get("region") + " at " + newEvents[0].get("timeStamp"));
+			Debug.warning("***** EVENT: bus arriving! ***** bus " + newEvents[0].get("bus") + " at region " + newEvents[0].get("region") + " at " + newEvents[0].get("timeStamp"));
 			String linha = ((Bus)newEvents[0].get("bus")).getLinha();
 			String ordem = ((Bus)newEvents[0].get("bus")).getOrdem();
 			double lat = ((Bus)newEvents[0].get("bus")).getLatitude();
@@ -54,7 +54,7 @@ public class EventBusArrivingListener implements UpdateListener {
 			
 			// cria o objeto JSON
 			JSONObject jsonObject = new JSONObject();
-			jsonObject.put("uuid", StaticLibrary.uuidLocal.toString());
+			jsonObject.put("uuid", StaticLibrary.coreUUID.toString());
 			jsonObject.put("username", "MUSANetCore");
 			jsonObject.put("date", (new Date()).toString());
 			jsonObject.put("accuracy", 19.5310001373291);

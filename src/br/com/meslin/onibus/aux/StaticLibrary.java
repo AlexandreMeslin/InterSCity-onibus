@@ -67,8 +67,8 @@ public class StaticLibrary {
 	/*
 	 * Global data
 	 */
-	/** Local UUID */
-	public static UUID uuidLocal;
+	/** Core UUID */
+	public static UUID coreUUID;
 	/** número da mensagem */
 	public static long sequencial;
 	/** passenger group type */
@@ -220,7 +220,7 @@ public class StaticLibrary {
 	 * @return text file content
 	 */
 	public static String readFile(String filename) {
-		Debug.println("Reading file " + filename);
+		Debug.warning("Reading file " + filename);
 		
 		// read the file composed by a filename per line
 		BufferedReader br = null;

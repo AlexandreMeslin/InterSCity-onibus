@@ -12,8 +12,22 @@ public class Debug {
 		enable = true;
 	}
 
-	public final static void println(String s) {
+	/**
+	 * Outputs text to standard error
+	 * @param s text to output
+	 */
+	public final static void warning(String s) {
 		if(Debug.enable) System.err.println("\r[" + new Exception().getStackTrace()[1].getClassName() + "." 
+												+ new Exception().getStackTrace()[1].getMethodName() + " (line #" 
+												+ new Exception().getStackTrace()[1].getLineNumber() + ")] " + s);
+	}
+	
+	/**
+	 * Outputs text to stardard output
+	 * @param s text to output
+	 */
+	public final static void info(String s) {
+		if(Debug.enable) System.out.println("\r[" + new Exception().getStackTrace()[1].getClassName() + "." 
 												+ new Exception().getStackTrace()[1].getMethodName() + " (line #" 
 												+ new Exception().getStackTrace()[1].getLineNumber() + ")] " + s);
 	}
