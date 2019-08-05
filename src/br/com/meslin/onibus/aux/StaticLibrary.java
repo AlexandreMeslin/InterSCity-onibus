@@ -220,8 +220,6 @@ public class StaticLibrary {
 	 * @return text file content
 	 */
 	public static String readFile(String filename) {
-		Debug.warning("Reading file " + filename);
-		
 		// read the file composed by a filename per line
 		BufferedReader br = null;
 		String buffer = "";
