@@ -20,5 +20,6 @@
 			<attribute name="javadoc_location" value="jar:file:/media/meslin/643CA9553CA92352/Program%20Files/Java/commons-lang3-3.7/commons-lang3-3.7-javadoc.jar!/"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/ESPER"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
