@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.Date;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.logging.Logger;
 
 import lac.cnet.groupdefiner.components.GroupDefiner;
 import lac.cnet.groupdefiner.components.groupselector.GroupSelector;
@@ -18,15 +19,14 @@ import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
-import org.apache.log4j.Logger;
 
-import br.com.meslin.onibus.aux.Debug;
-import br.com.meslin.onibus.aux.StaticLibrary;
-import br.com.meslin.onibus.aux.connection.Constants;
-import br.com.meslin.onibus.aux.connection.HTTPException;
-import br.com.meslin.onibus.aux.contextnet.BenchmarkMyGroupSelector;
-import br.com.meslin.onibus.aux.contextnet.BenchmarkMyProcessingNode;
-import br.com.meslin.onibus.aux.model.Bus;
+import br.com.meslin.onibus.auxiliar.model.Bus;
+import br.com.meslin.onibus.auxiliar.Debug;
+import br.com.meslin.onibus.auxiliar.StaticLibrary;
+import br.com.meslin.onibus.auxiliar.connection.Constants;
+import br.com.meslin.onibus.auxiliar.connection.HTTPException;
+import br.com.meslin.onibus.auxiliar.contextnet.BenchmarkMyGroupSelector;
+import br.com.meslin.onibus.auxiliar.contextnet.BenchmarkMyProcessingNode;
 import br.com.meslin.onibus.interscity.InterSCity;
 import br.com.meslin.onibus.interscity.InterSCityConsumer;
 
@@ -48,7 +48,7 @@ public class BenchmarkMyCore {
 
 	/** An interface to InterSCity */
 	private static InterSCity interSCity;
-	public static Logger log = Logger.getLogger(BenchmarkMyCore.class);
+	public static Logger log = Logger.getLogger(BenchmarkMyCore.class.getName());
 	/** stores a queue of bus data to be sent to the InterSCity */
 	public static ConcurrentLinkedQueue<Bus> busQueue = new ConcurrentLinkedQueue<Bus>(); 
 
@@ -138,6 +138,13 @@ public class BenchmarkMyCore {
 		    	System.err.println("Time: " +  elapsedTime + " (" + StaticLibrary.stopTime + " - " + StaticLibrary.startTime + ") with " + StaticLibrary.nMessages + " messages");
 		    }
 		});
+		
+		// HTTP agent to request map tiles
+		String httpAgent = System.getProperty("http.agent");
+		if (httpAgent == null) {
+		    httpAgent = "(" + System.getProperty("os.name") + " / " + System.getProperty("os.version") + " / " + System.getProperty("os.arch") + ")";
+		}
+		System.setProperty("http.agent", "MyCore/1.0 " + httpAgent);
 
 		System.out.println("\n\nStarting ContextNet Core using gateway at " + StaticLibrary.contextNetIPAddress + ":" + StaticLibrary.contextNetPortNumber + "\n\n");
 		System.out.println("Ready, set...");

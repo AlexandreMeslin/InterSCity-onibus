@@ -2,9 +2,9 @@ package br.com.meslin.cep;
 
 import java.util.HashSet;
 
-import br.com.meslin.onibus.aux.event.EventBusArrivingListener;
-import br.com.meslin.onibus.aux.event.EventRegion;
-import br.com.meslin.onibus.aux.model.Bus;
+import br.com.meslin.onibus.auxiliar.model.Bus;
+import br.com.meslin.onibus.auxiliar.event.EventBusArrivingListener;
+import br.com.meslin.onibus.auxiliar.event.EventRegion;
 
 import com.espertech.esper.client.Configuration;
 import com.espertech.esper.client.EPServiceProvider;

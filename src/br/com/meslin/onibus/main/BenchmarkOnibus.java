@@ -35,8 +35,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import br.com.meslin.onibus.aux.connection.Constants;
-import br.com.meslin.onibus.aux.model.Bus;
+import br.com.meslin.onibus.auxiliar.model.Bus;
+import br.com.meslin.onibus.auxiliar.connection.Constants;
 
 /**
  * @author Meslin

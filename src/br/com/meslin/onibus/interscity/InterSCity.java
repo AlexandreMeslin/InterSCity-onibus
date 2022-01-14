@@ -10,11 +10,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import br.com.meslin.onibus.aux.Debug;
-import br.com.meslin.onibus.aux.StaticLibrary;
-import br.com.meslin.onibus.aux.connection.HTTPConnection;
-import br.com.meslin.onibus.aux.connection.HTTPException;
-import br.com.meslin.onibus.aux.model.Bus;
+import br.com.meslin.onibus.auxiliar.model.Bus;
+import br.com.meslin.onibus.auxiliar.Debug;
+import br.com.meslin.onibus.auxiliar.StaticLibrary;
+import br.com.meslin.onibus.auxiliar.connection.HTTPConnection;
+import br.com.meslin.onibus.auxiliar.connection.HTTPException;
 
 public class InterSCity {
 	private HTTPConnection connection;

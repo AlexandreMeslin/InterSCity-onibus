@@ -1,25 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Pretty Print"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JSONParser"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/ContextNet"/>
-	<classpathentry kind="lib" path="/media/meslin/643CA9553CA92352/Program Files/Java/commons-cli/commons-cli-1.4.jar">
+	<classpathentry including="**/*.java" kind="src" output="target/classes" path="src">
 		<attributes>
-			<attribute name="javadoc_location" value="https://commons.apache.org/proper/commons-cli/javadocs/api-release/"/>
+			<attribute name="optional" value="true"/>
+			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="/media/meslin/643CA9553CA92352/Program Files/Java/JMapViewer/JMapViewer-2.6/JMapViewer.jar" sourcepath="/media/meslin/643CA9553CA92352/Program Files/Java/JMapViewer/JMapViewer-2.6/JMapViewer_src.jar">
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8">
 		<attributes>
-			<attribute name="javadoc_location" value="https://josm.openstreetmap.de/doc"/>
+			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="/media/meslin/643CA9553CA92352/Program Files/Java/commons-lang3-3.7/commons-lang3-3.7.jar" sourcepath="/media/meslin/643CA9553CA92352/Program Files/Java/commons-lang3-3.7/commons-lang3-3.7-sources.jar">
+	<classpathentry kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER">
 		<attributes>
-			<attribute name="javadoc_location" value="jar:file:/media/meslin/643CA9553CA92352/Program%20Files/Java/commons-lang3-3.7/commons-lang3-3.7-javadoc.jar!/"/>
+			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/ESPER"/>
-	<classpathentry kind="output" path="bin"/>
+	<classpathentry kind="output" path="target/classes"/>
 </classpath>

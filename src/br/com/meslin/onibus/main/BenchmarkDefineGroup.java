@@ -16,10 +16,10 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 import lac.cnet.groupdefiner.components.GroupDefiner;
 import lac.cnet.groupdefiner.components.groupselector.GroupSelector;
-import br.com.meslin.onibus.aux.StaticLibrary;
-import br.com.meslin.onibus.aux.connection.HTTPException;
-import br.com.meslin.onibus.aux.contextnet.BenchmarkGroupSelectorImplementation;
-import br.com.meslin.onibus.aux.model.Bus;
+import br.com.meslin.onibus.auxiliar.model.Bus;
+import br.com.meslin.onibus.auxiliar.StaticLibrary;
+import br.com.meslin.onibus.auxiliar.connection.HTTPException;
+import br.com.meslin.onibus.auxiliar.contextnet.BenchmarkGroupSelectorImplementation;
 import br.com.meslin.onibus.interscity.InterSCity;
 import br.com.meslin.onibus.interscity.InterSCityConsumer;
 

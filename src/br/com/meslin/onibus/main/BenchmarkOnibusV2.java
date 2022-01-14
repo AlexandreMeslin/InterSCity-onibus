@@ -1,13 +1,28 @@
 /**
  * 
  * http connection from https://www.mkyong.com/java/how-to-send-http-request-getpost-in-java/<br>
- * Polygon boundaires from https://gis.stackexchange.com/questions/183248/how-to-get-polygon-boundaries-of-city-in-json-from-google-maps-api
- * This version sends data using ContextNet
+ * Polygon boundaires from https://gis.stackexchange.com/questions/183248/how-to-get-polygon-boundaries-of-city-in-json-from-google-maps-api<br>
+ * This version sends data using ContextNet<br>
+ * <br>
+ * Version 2<br>
+ * uses one thread per bus<br> 
+ * <br>
+ * To execute: $ java -classpath .:/media/meslin/643CA9553CA92352/Program\ Files/Java/ContextNet/contextnet-2.5.jar:/media/meslin/643CA9553CA92352/Program\ Files/Java/ContextNet/udilib.jar:/media/meslin/643CA9553CA92352/Program\ Files/Java/JMapViewer/JMapViewer.jar:/media/meslin/643CA9553CA92352/Program\ Files/Java/JSON/JSON-Parser/json-20160810.jar br.com.meslin.onibus.main.DefineGroup ../RegiaoMetropolitana.txt<br>
  * 
- * Version 2
- * uses one thread per bus 
- * 
- * To execute: $ java -classpath .:/media/meslin/643CA9553CA92352/Program\ Files/Java/ContextNet/contextnet-2.5.jar:/media/meslin/643CA9553CA92352/Program\ Files/Java/ContextNet/udilib.jar:/media/meslin/643CA9553CA92352/Program\ Files/Java/JMapViewer/JMapViewer.jar:/media/meslin/643CA9553CA92352/Program\ Files/Java/JSON/JSON-Parser/json-20160810.jar br.com.meslin.onibus.main.DefineGroup ../RegiaoMetropolitana.txt
+ * Para simular a taxa de transferência e quantidade de pacotes perdidos, utilizar em conjunto com BenchmarkMyCore
+ * Passos para a simulação:
+ * 1) Exportar como JAR (BenchmarkOnibusV2 e BenchmarkMyCore)
+ * 2) Transferir para VM005
+ * 3) Copiar BenchmarkOnibusV2 para Cliente1-2 e BenchmarkMyCore para ContextNet1-4
+ * 4) Iniciar o InterSCity em ContextNet1 com o comando: (cd /opt/InterSCity/dev-env ; ./project start ; curl -X GET "http://localhost:8000/catalog/capabilities")
+ * 5) Iniciar o ContextNet em ContextNet1-4 com o comando: java -Xmx8G -jar /opt/ContextNet/contextnet-2.5.jar 172.16.1.202 5500 OpenSplice
+ * 6) Criar a variável INTERSCITY com o endereço do InterSCity (contextnet1)
+ * 7) Iniciar o servidor em ContextNet1-4 com o script server.sh
+ * 8) Editar o arquivo client1-2.sh e informar o número de ônibus modificando a variável b
+ * 9) Iniciar o cliente em Cliente1-2 com o script client1-2.sh
+ * 10) Aguardar todos os ônibus de todos os clientes terminarem de se conectar para apertar <ENTER>
+ * <br>
+ * IMPOBS: The RMI is disable by now, please, synchronize by hand.<br>
  */
 package br.com.meslin.onibus.main;
 
@@ -29,13 +44,12 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
 import prefecture.Prefecture;
-//import br.com.meslin.onibus.aux.MyRMIServer;
-//import br.com.meslin.onibus.aux.RMIServerIntf;
-import br.com.meslin.onibus.aux.StaticLibrary;
-import br.com.meslin.onibus.aux.connection.Constants;
-import br.com.meslin.onibus.aux.contextnet.BusThread;
-import br.com.meslin.onibus.aux.model.Bus;
+import br.com.meslin.onibus.auxiliar.model.Bus;
 //import java.net.MalformedURLException;
+import br.com.meslin.onibus.auxiliar.Debug;
+import br.com.meslin.onibus.auxiliar.StaticLibrary;
+import br.com.meslin.onibus.auxiliar.connection.Constants;
+import br.com.meslin.onibus.auxiliar.contextnet.BusThread;
 
 /**
  * @author Meslin
@@ -59,7 +73,7 @@ public class BenchmarkOnibusV2 {
 	// to control the threads
 	private Thread[] busThread;
 	// syncronization
-	private static Object canStart;				// just a sincronize object
+	private static Object canStart;				// just a sync object
 	private static Map<String, Integer> threadReturnValue;
 //	private static String rmiServerAddress;
 
@@ -69,23 +83,28 @@ public class BenchmarkOnibusV2 {
 
 
 	/**
-	 * Construct and empty Onibus object
+	 * Construct and empty Onibus object, including:
+	 * <ul>
+	 * 	<li>can start flag
+	 *  <li>qtd message
+	 *  <li>thread return value
+	 *  <li>the thread
+	 * </ul>
 	 */
 	public BenchmarkOnibusV2() {
+		// canStart is an object used to synchronize the bus threads
 		canStart = new Object();
 		nMessages = 0;
 		threadReturnValue = new HashMap<String, Integer>();
 		busThread = new Thread[nBuses];
 		
-		System.out.println("[" + this.getClass().getName() + "." + "Benchmark] ContextNet address: " + gatewayIP + ":" + gatewayPort + "\n\n");
+		Debug.message("ContextNet address: " + gatewayIP + ":" + gatewayPort + "\n\n");
 	}
 
 
+	
 
-	/**
-	 * @param args
-	 * @throws InterruptedException 
-	 */
+
 	/**
 	 * @param args
 	 * @throws InterruptedException
@@ -156,27 +175,12 @@ public class BenchmarkOnibusV2 {
 		try {
 			StaticLibrary.intervalBetweenThreads = Integer.parseInt(cmd.getOptionValue("interval"));
 		} catch(Exception e) {
-			// no default parameters setted here (it is setted at StaticLibrary
+			// no default parameters set here (it is set at StaticLibrary)
 		}
-//		rmiServerAddress = cmd.getOptionValue("main");
 
-		System.out.println("[BenchmarkOnibusV2.main] Starting sending " + maxIterations + " packets every " + StaticLibrary.interval + " milliseconds from " + nBuses + " buses");
-
+		Debug.message("Starting sending " + maxIterations + " packets every " + StaticLibrary.interval + " milliseconds from " + nBuses + " buses");
 		System.out.println("Ready, set...");
 
-/*		// new RMI server
-		MyRMIServer.nClients = new Integer(0);
-		if(!cmd.hasOption("m")) {
-			// binds this object instance to the name "Onibus"
-			try {
-				System.out.println("[BenchmarkOnibusV2.main] Creating RMI server");
-				new MyRMIServer(MyRMIServer.nClients);
-			} catch (RemoteException e) {
-				System.err.println("Date = " + new Date());
-				e.printStackTrace();
-			}
-		}
-*/
 		BenchmarkOnibusV2 bench = new BenchmarkOnibusV2();
 		
 		// do all
@@ -194,6 +198,9 @@ public class BenchmarkOnibusV2 {
 
 		System.out.println("FINISHED!!!");
 	}
+	
+	
+	
 	
 	
 	/**
@@ -232,6 +239,10 @@ public class BenchmarkOnibusV2 {
 */
 		// create each bus
 		// create a thread for each bus
+		/*
+		 * The bus threads use canStart to synchronize themselves with this procedure.
+		 * The bus threads will begin production when this code exists canStart region.
+		 */
 		synchronized(canStart) {
 			Prefecture prefecture = new Prefecture();
 			for(busNumber=0; busNumber<nBuses; busNumber++) {
@@ -280,7 +291,7 @@ public class BenchmarkOnibusV2 {
 			Scanner scanner = new Scanner(System.in);
 			scanner.nextLine();
 			scanner.close();
-		}
+		} // end of synchronize(canStart) ==> now the bus threads will really begin to produce data
 
 		System.out.println("***** GO!!!! *****");
 

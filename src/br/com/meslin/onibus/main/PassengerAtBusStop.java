@@ -1,6 +1,7 @@
 /**
  * Implements several passengers at the same bus stop<br>
  * Each passenger is represented by a thread<br>
+ * To be used with br.com.meslin.onibus.aux.contextnet.BenchmarkMyGroupSelector
  */
 package br.com.meslin.onibus.main;
 
@@ -14,11 +15,11 @@ import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
-import br.com.meslin.onibus.aux.Debug;
-import br.com.meslin.onibus.aux.StaticLibrary;
-import br.com.meslin.onibus.aux.connection.Constants;
-import br.com.meslin.onibus.aux.contextnet.PassengerThread;
-import br.com.meslin.onibus.aux.model.BenchmarkDateTime;
+import br.com.meslin.onibus.auxiliar.model.BenchmarkDateTime;
+import br.com.meslin.onibus.auxiliar.Debug;
+import br.com.meslin.onibus.auxiliar.StaticLibrary;
+import br.com.meslin.onibus.auxiliar.connection.Constants;
+import br.com.meslin.onibus.auxiliar.contextnet.PassengerThread;
 
 /**
  * @author meslin

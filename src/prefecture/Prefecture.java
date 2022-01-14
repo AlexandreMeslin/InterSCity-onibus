@@ -16,9 +16,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import br.com.meslin.onibus.aux.StaticLibrary;
-import br.com.meslin.onibus.aux.model.Bus;
+import br.com.meslin.onibus.auxiliar.model.Bus;
+import br.com.meslin.onibus.auxiliar.StaticLibrary;
 import br.com.meslin.onibus.main.BenchmarkOnibusV2;
+import br.com.meslin.util.Debug;
 
 /**
  * @author meslin
@@ -67,6 +68,7 @@ public class Prefecture {
 			break;
 		}
 		if(newBus==null) {
+			Debug.warning("Could not create buses from prefecture");
 			return null;
 		}
 		return newBus;
@@ -211,7 +213,17 @@ public class Prefecture {
 //			System.err.println("[" + this.getClass().getName() + "." + new Object(){}.getClass().getEnclosingMethod().getName() + "] DATA = " + jsonData);
 //			System.err.println("[" + this.getClass().getName() + "." + new Object(){}.getClass().getEnclosingMethod().getName() + "] " + jsonData.length() + " buses");
 //			buses = new HashMap<String, Bus>();
-			for(int i=0; i<jsonData.length(); i++) {
+			if(jsonData.length() == 0) {
+				Bus bus = new Bus();
+				bus.setData(new Date());
+				bus.setOrdem("123456");
+				bus.setLinha(123);
+				bus.setLatitude(StaticLibrary.LATITUDE);
+				bus.setLongitude(StaticLibrary.LONGITUDE);
+				bus.setVelocidade(123);
+				buses.put(bus.getOrdem(), bus);
+			}
+			else for(int i=0; i<jsonData.length(); i++) {
 				JSONArray jsonBus = jsonData.getJSONArray(i);
 				Bus bus = new Bus();
 				bus.setData(new Date(

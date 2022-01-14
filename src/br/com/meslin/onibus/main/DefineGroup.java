@@ -14,8 +14,8 @@ import java.net.MalformedURLException;
 
 import lac.cnet.groupdefiner.components.GroupDefiner;
 import lac.cnet.groupdefiner.components.groupselector.GroupSelector;
-import br.com.meslin.onibus.aux.connection.HTTPException;
-import br.com.meslin.onibus.aux.contextnet.GroupSelectorImplementation;
+import br.com.meslin.onibus.auxiliar.connection.HTTPException;
+import br.com.meslin.onibus.auxiliar.contextnet.GroupSelectorImplementation;
 
 /**
  * Implements group definition and selection based on regions

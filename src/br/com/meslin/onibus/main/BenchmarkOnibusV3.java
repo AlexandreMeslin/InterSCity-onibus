@@ -3,18 +3,18 @@
  * http connection from https://www.mkyong.com/java/how-to-send-http-request-getpost-in-java/<br>
  * Polygon boundaires from https://gis.stackexchange.com/questions/183248/how-to-get-polygon-boundaries-of-city-in-json-from-google-maps-api<br>
  * This version sends data using ContextNet<br>
- * 
+ * <br>
  * Version 2<br>
  * - uses one thread per bus<br>
- * 
+ * <br>
  * Version 3<br>
  * - option to read data from City Hall website ou from JSON files<br>
  * - different from version 2, does not send the same bus, instead, sends actual bus to ContextNet<br>
  * - there is no nBus (number of buses) parameter in this version<br>
- * - there is no MAX_ITERATIONS (maximum number of iterations) in this version 
- * - there is no RMI server/client
- * 
- * To execute: $ java -classpath .:/media/meslin/643CA9553CA92352/Program\ Files/Java/ContextNet/contextnet-2.5.jar:/media/meslin/643CA9553CA92352/Program\ Files/Java/ContextNet/udilib.jar:/media/meslin/643CA9553CA92352/Program\ Files/Java/JMapViewer/JMapViewer.jar:/media/meslin/643CA9553CA92352/Program\ Files/Java/JSON/JSON-Parser/json-20160810.jar br.com.meslin.onibus.main.DefineGroup ../RegiaoMetropolitana.txt
+ * - there is no MAX_ITERATIONS (maximum number of iterations) in this version<br>
+ * - there is no RMI server/client<br>
+ * <br>
+ * To execute: $ java -classpath .:/media/meslin/643CA9553CA92352/Program\ Files/Java/ContextNet/contextnet-2.5.jar:/media/meslin/643CA9553CA92352/Program\ Files/Java/ContextNet/udilib.jar:/media/meslin/643CA9553CA92352/Program\ Files/Java/JMapViewer/JMapViewer.jar:/media/meslin/643CA9553CA92352/Program\ Files/Java/JSON/JSON-Parser/json-20160810.jar br.com.meslin.onibus.main.DefineGroup ../RegiaoMetropolitana.txt<br>
  */
 package br.com.meslin.onibus.main;
 
@@ -35,10 +35,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import br.com.meslin.onibus.aux.StaticLibrary;
-import br.com.meslin.onibus.aux.connection.Constants;
-import br.com.meslin.onibus.aux.contextnet.BusThread;
-import br.com.meslin.onibus.aux.model.Bus;
+import br.com.meslin.onibus.auxiliar.model.Bus;
+import br.com.meslin.onibus.auxiliar.StaticLibrary;
+import br.com.meslin.onibus.auxiliar.connection.Constants;
+import br.com.meslin.onibus.auxiliar.contextnet.BusThread;
 
 /**
  * @author Meslin

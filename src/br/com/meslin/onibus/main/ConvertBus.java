@@ -16,7 +16,7 @@ import org.apache.commons.cli.ParseException;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import br.com.meslin.onibus.aux.StaticLibrary;
+import br.com.meslin.onibus.auxiliar.StaticLibrary;
 
 /**
  * Este programa converte os arquivos JSON baseados em data em arquivos CSV baseados em ônibus, preservando apenas latitude, longitude e horário 

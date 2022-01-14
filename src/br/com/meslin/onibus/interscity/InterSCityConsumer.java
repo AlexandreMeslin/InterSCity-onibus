@@ -3,7 +3,7 @@ package br.com.meslin.onibus.interscity;
 import java.util.Date;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-import br.com.meslin.onibus.aux.model.Bus;
+import br.com.meslin.onibus.auxiliar.model.Bus;
 
 public class InterSCityConsumer implements Runnable {
 	/** stores a queue of bus data to be sent to the InterSCity */
